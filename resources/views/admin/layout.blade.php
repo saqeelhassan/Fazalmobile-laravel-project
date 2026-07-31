@@ -138,6 +138,9 @@
         <a href="{{ route('admin.products.create') }}" class="nav-item {{ request()->routeIs('admin.products.create') ? 'active' : '' }}">
             <i class="fas fa-plus-circle"></i> Add Product
         </a>
+        <a href="{{ route('admin.categories.index') }}" class="nav-item {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+            <i class="fas fa-tags"></i> Categories
+        </a>
         <div class="nav-section">Content</div>
         <a href="{{ route('admin.blog-posts.index') }}" class="nav-item {{ request()->routeIs('admin.blog-posts.*') ? 'active' : '' }}">
             <i class="fas fa-newspaper"></i> Blog Posts

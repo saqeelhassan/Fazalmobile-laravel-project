@@ -9,13 +9,11 @@
     </a>
 </div>
 
-<form method="POST" action="{{ route('admin.products.update', $product) }}" enctype="multipart/form-data">
-    @csrf @method('PUT')
+<div style="display:grid;grid-template-columns:1fr 340px;gap:20px">
 
-    <div style="display:grid;grid-template-columns:1fr 340px;gap:20px">
-
-        {{-- Left column --}}
-        <div style="display:flex;flex-direction:column;gap:20px">
+    {{-- Left column --}}
+    <form id="productEditForm" method="POST" action="{{ route('admin.products.update', $product) }}" enctype="multipart/form-data" style="display:flex;flex-direction:column;gap:20px">
+        @csrf @method('PUT')
 
             <div class="form-card">
                 <h3 style="font-size:14px;font-weight:700;margin-bottom:18px;color:#1f2937"><i class="fas fa-info-circle" style="color:#6c63ff"></i> Basic Information</h3>
@@ -105,7 +103,7 @@
                 </div>
             </div>
 
-        </div>
+    </form>
 
         {{-- Right column --}}
         <div style="display:flex;flex-direction:column;gap:20px">
@@ -114,22 +112,22 @@
                 <h3 style="font-size:14px;font-weight:700;margin-bottom:18px;color:#1f2937"><i class="fas fa-toggle-on" style="color:#6c63ff"></i> Publish</h3>
                 <div class="form-group" style="margin-bottom:16px">
                     <label>Status <span class="req">*</span></label>
-                    <select name="status">
+                    <select name="status" form="productEditForm">
                         <option value="active"       {{ old('status',$product->status) === 'active' ? 'selected' : '' }}>Active</option>
                         <option value="inactive"     {{ old('status',$product->status) === 'inactive' ? 'selected' : '' }}>Inactive</option>
                         <option value="out_of_stock" {{ old('status',$product->status) === 'out_of_stock' ? 'selected' : '' }}>Out of Stock</option>
                     </select>
                 </div>
                 <label class="form-check" style="margin-bottom:12px">
-                    <input type="checkbox" name="is_featured" value="1" {{ old('is_featured', $product->is_featured) ? 'checked' : '' }}>
+                    <input type="checkbox" name="is_featured" value="1" form="productEditForm" {{ old('is_featured', $product->is_featured) ? 'checked' : '' }}>
                     <label style="font-weight:500;cursor:pointer">Mark as Featured</label>
                 </label>
                 <label class="form-check">
-                    <input type="checkbox" name="is_on_sale" value="1" {{ old('is_on_sale', $product->is_on_sale) ? 'checked' : '' }}>
+                    <input type="checkbox" name="is_on_sale" value="1" form="productEditForm" {{ old('is_on_sale', $product->is_on_sale) ? 'checked' : '' }}>
                     <label style="font-weight:500;cursor:pointer">Mark as On Sale</label>
                 </label>
                 <div style="margin-top:20px;display:flex;flex-direction:column;gap:10px">
-                    <button type="submit" class="btn btn-primary" style="justify-content:center">
+                    <button type="submit" form="productEditForm" class="btn btn-primary" style="justify-content:center">
                         <i class="fas fa-save"></i> Update Product
                     </button>
                     <a href="{{ route('admin.products.index') }}" class="btn btn-secondary" style="justify-content:center">Cancel</a>
@@ -140,7 +138,7 @@
                 <h3 style="font-size:14px;font-weight:700;margin-bottom:18px;color:#1f2937"><i class="fas fa-tags" style="color:#f59e0b"></i> Category</h3>
                 <div class="form-group" style="margin-bottom:14px">
                     <label>Category <span class="req">*</span></label>
-                    <select name="category" class="{{ $errors->has('category') ? 'is-invalid' : '' }}">
+                    <select name="category" form="productEditForm" class="{{ $errors->has('category') ? 'is-invalid' : '' }}">
                         @foreach($categories as $cat)
                             <option value="{{ $cat }}" {{ old('category',$product->category) === $cat ? 'selected' : '' }}>{{ $cat }}</option>
                         @endforeach
@@ -148,14 +146,14 @@
                 </div>
                 <div class="form-group">
                     <label>Brand</label>
-                    <input type="text" name="brand" value="{{ old('brand', $product->brand) }}" placeholder="e.g. Apple, Samsung">
+                    <input type="text" name="brand" value="{{ old('brand', $product->brand) }}" form="productEditForm" placeholder="e.g. Apple, Samsung">
                 </div>
             </div>
 
             <div class="form-card" style="border:1px solid #fee2e2">
                 <h3 style="font-size:14px;font-weight:700;margin-bottom:14px;color:#dc2626"><i class="fas fa-exclamation-triangle"></i> Danger Zone</h3>
-                <p style="font-size:12px;color:#9ca3af;margin-bottom:14px">This will permanently delete the product.</p>
-                <form method="POST" action="{{ route('admin.products.destroy', $product) }}" onsubmit="return confirm('Permanently delete {{ addslashes($product->name) }}?')">
+                <p style="font-size:12px;color:#9ca3af;margin-bottom:14px">This moves the product to Trash. It can be restored later from Products &rarr; Trashed.</p>
+                <form method="POST" action="{{ route('admin.products.destroy', $product) }}" onsubmit="return confirm('This will move \'{{ addslashes($product->name) }}\' to Trash. Continue?')">
                     @csrf @method('DELETE')
                     <button type="submit" class="btn btn-danger" style="width:100%;justify-content:center">
                         <i class="fas fa-trash"></i> Delete Product
@@ -165,7 +163,6 @@
 
         </div>
     </div>
-</form>
 
 @push('scripts')
 <script>

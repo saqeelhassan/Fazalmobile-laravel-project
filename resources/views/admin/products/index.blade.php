@@ -21,7 +21,7 @@
     <input type="text" name="search" value="{{ request('search') }}" placeholder="Search name, SKU, brand...">
     <select name="category">
         <option value="">All Categories</option>
-        @foreach(\App\Models\Product::categories() as $cat)
+        @foreach(\App\Models\Category::orderBy('name')->pluck('name') as $cat)
             <option value="{{ $cat }}" {{ request('category') === $cat ? 'selected' : '' }}>{{ $cat }}</option>
         @endforeach
     </select>
@@ -91,13 +91,13 @@
                     </td>
                     <td style="font-size:12px;color:#9ca3af">{{ $product->created_at->format('M d, Y') }}</td>
                     <td>
-                        <div class="action-btns">
+                        <div class="action-btns" style="gap:14px">
                             <a href="{{ route('admin.products.edit', $product) }}" class="btn btn-secondary btn-sm" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <form method="POST" action="{{ route('admin.products.destroy', $product) }}" onsubmit="return confirm('Delete {{ addslashes($product->name) }}?')">
+                            <form method="POST" action="{{ route('admin.products.destroy', $product) }}" onsubmit="return confirm('This will move \'{{ addslashes($product->name) }}\' to Trash. Continue?')" style="margin-left:6px">
                                 @csrf @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash"></i></button>
+                                <button type="submit" class="btn btn-danger btn-sm" title="Move to Trash"><i class="fas fa-trash"></i></button>
                             </form>
                         </div>
                     </td>

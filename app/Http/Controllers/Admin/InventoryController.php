@@ -37,32 +37,46 @@ class InventoryController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'product_id'       => ['required', 'exists:products,id'],
-            'type'             => ['required', 'in:purchase,adjustment,return'],
-            'quantity'         => ['required', 'integer', 'min:1'],
-            'unit_cost'        => ['nullable', 'numeric', 'min:0'],
-            'reference_number' => ['nullable', 'string', 'max:100'],
-            'notes'            => ['nullable', 'string', 'max:500'],
+            'type'                    => ['required', 'in:purchase,adjustment,return'],
+            'reference_number'        => ['nullable', 'string', 'max:100'],
+            'notes'                   => ['nullable', 'string', 'max:500'],
+            'items'                   => ['required', 'array', 'min:1'],
+            'items.*.product_id'      => ['required', 'exists:products,id'],
+            'items.*.quantity'        => ['required', 'integer', 'min:1'],
+            'items.*.unit_cost'       => ['nullable', 'numeric', 'min:0'],
         ]);
 
-        $validated['created_by'] = Auth::guard('admin')->id();
-        $validated['unit_cost']  = $validated['unit_cost'] ?? 0;
-        $validated['unit_price'] = 0;
+        $createdBy = Auth::guard('admin')->id();
 
-        DB::transaction(function () use ($validated) {
-            InventoryTransaction::create($validated);
-            // Increase stock for purchases/returns
-            Product::where('id', $validated['product_id'])
-                ->increment('stock', $validated['quantity']);
+        DB::transaction(function () use ($validated, $createdBy) {
+            foreach ($validated['items'] as $item) {
+                $unitCost = $item['unit_cost'] ?? 0;
 
-            // Update cost_price if provided
-            if ($validated['unit_cost'] > 0) {
-                Product::where('id', $validated['product_id'])
-                    ->update(['cost_price' => $validated['unit_cost']]);
+                InventoryTransaction::create([
+                    'product_id'       => $item['product_id'],
+                    'type'             => $validated['type'],
+                    'quantity'         => $item['quantity'],
+                    'unit_cost'        => $unitCost,
+                    'unit_price'       => 0,
+                    'reference_number' => $validated['reference_number'] ?? null,
+                    'notes'            => $validated['notes'] ?? null,
+                    'created_by'       => $createdBy,
+                ]);
+
+                // Increase stock for purchases/returns
+                Product::where('id', $item['product_id'])
+                    ->increment('stock', $item['quantity']);
+
+                // Update cost_price if provided
+                if ($unitCost > 0) {
+                    Product::where('id', $item['product_id'])
+                        ->update(['cost_price' => $unitCost]);
+                }
             }
         });
 
+        $count = count($validated['items']);
         return redirect()->route('admin.inventory.index')
-            ->with('success', 'Stock added successfully.');
+            ->with('success', $count > 1 ? "Stock added for {$count} products." : 'Stock added successfully.');
     }
 }

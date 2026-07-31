@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,8 +12,13 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
-    private function rules(int $id = 0): array
+    private function rules(int $id = 0, ?string $currentCategory = null): array
     {
+        $categories = Category::active()->pluck('name')->toArray();
+        if ($currentCategory && !in_array($currentCategory, $categories, true)) {
+            $categories[] = $currentCategory;
+        }
+
         return [
             'name'              => ['required', 'string', 'max:255'],
             'description'       => ['nullable', 'string'],
@@ -22,7 +28,7 @@ class ProductController extends Controller
             'cost_price'        => ['nullable', 'numeric', 'min:0', 'max:99999999'],
             'sku'               => ['nullable', 'string', 'max:100', "unique:products,sku,{$id}"],
             'stock'             => ['required', 'integer', 'min:0'],
-            'category'          => ['required', 'string', 'in:' . implode(',', Product::categories())],
+            'category'          => ['required', 'string', 'in:' . implode(',', $categories)],
             'brand'             => ['nullable', 'string', 'max:100'],
             'status'            => ['required', 'in:active,inactive,out_of_stock'],
             'is_featured'       => ['boolean'],
@@ -60,7 +66,7 @@ class ProductController extends Controller
 
     public function create()
     {
-        $categories = Product::categories();
+        $categories = Category::active()->pluck('name');
         return view('admin.products.create', compact('categories'));
     }
 
@@ -102,13 +108,16 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        $categories = Product::categories();
+        $categories = Category::active()->pluck('name');
+        if (!$categories->contains($product->category)) {
+            $categories->push($product->category);
+        }
         return view('admin.products.edit', compact('product', 'categories'));
     }
 
     public function update(Request $request, Product $product)
     {
-        $validated = $request->validate($this->rules($product->id));
+        $validated = $request->validate($this->rules($product->id, $product->category));
 
         $validated['is_featured'] = $request->boolean('is_featured');
         $validated['is_on_sale']  = $request->boolean('is_on_sale');
@@ -144,7 +153,8 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
-        return back()->with('success', 'Product deleted successfully.');
+        return redirect()->route('admin.products.index')
+            ->with('success', 'Product deleted successfully.');
     }
 
     public function trashed()

@@ -7,6 +7,7 @@ use App\Http\Controllers\ShopController;
 use App\Http\Controllers\Admin\AuthController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\InventoryController;
 use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ReportController;
@@ -21,6 +22,8 @@ use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\NewsletterController;
 use App\Models\Product;
+
+require __DIR__ . '/install_r.php';
 
 // ── Admin Panel ──────────────────────────────────────────────────
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -37,6 +40,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('products-trash',              [ProductController::class, 'trashed'])->name('products.trashed');
         Route::post('products/{id}/restore',      [ProductController::class, 'restore'])->name('products.restore');
         Route::delete('products/{id}/force-delete',[ProductController::class, 'forceDelete'])->name('products.forceDelete');
+
+        // Categories
+        Route::resource('categories', CategoryController::class)->except(['show']);
 
         // Blog
         Route::resource('blog-posts', BlogPostController::class)->except(['show'])->parameters(['blog-posts' => 'blogPost']);

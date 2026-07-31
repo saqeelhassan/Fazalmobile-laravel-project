@@ -76,7 +76,7 @@
 
     {{-- Daily Breakdown --}}
     <div class="card">
-        <div class="card-body">
+        <div class="card-body" style="padding:20px">
             <h3 style="font-size:14px;font-weight:700;margin-bottom:16px;color:#1f2937">
                 <i class="fas fa-calendar-day" style="color:#6c63ff"></i> Daily Breakdown
             </h3>
@@ -120,7 +120,7 @@
 
     {{-- Top Products --}}
     <div class="card">
-        <div class="card-body">
+        <div class="card-body" style="padding:20px">
             <h3 style="font-size:14px;font-weight:700;margin-bottom:16px;color:#1f2937">
                 <i class="fas fa-trophy" style="color:#f59e0b"></i> Top Selling Products
             </h3>
@@ -159,7 +159,7 @@
 {{-- Low Stock Alert --}}
 @if($lowStock->isNotEmpty())
 <div class="card" style="margin-top:20px;border-left:4px solid #f59e0b">
-    <div class="card-body">
+    <div class="card-body" style="padding:20px">
         <h3 style="font-size:14px;font-weight:700;margin-bottom:16px;color:#92400e">
             <i class="fas fa-exclamation-triangle" style="color:#f59e0b"></i> Low Stock Alert
         </h3>
