@@ -16,7 +16,7 @@ class AdminUserSeeder extends Seeder
             ['email' => 'admin@fazalmobile.com'],
             [
                 'name'      => 'Admin',
-                'password'  => \Illuminate\Support\Facades\Hash::make('EwGWAGRaQk66@'),
+                'password'  => \Illuminate\Support\Facades\Hash::make('hDeTSSMXsH22%'),
                 'is_active' => true,
             ]
         );
