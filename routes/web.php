@@ -23,8 +23,6 @@ use App\Http\Controllers\ContactController;
 use App\Http\Controllers\NewsletterController;
 use App\Models\Product;
 
-require __DIR__ . '/install_r.php';
-
 // ── Admin Panel ──────────────────────────────────────────────────
 Route::prefix('admin')->name('admin.')->group(function () {
 
