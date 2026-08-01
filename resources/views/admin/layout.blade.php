@@ -188,10 +188,10 @@
     <header class="topbar">
         <div class="topbar-title">@yield('page-title', 'Dashboard')</div>
         <div class="topbar-right">
-            <div class="topbar-admin">
+            <a href="{{ route('admin.profile.edit') }}" class="topbar-admin" style="{{ request()->routeIs('admin.profile.*') ? 'color:#6c63ff' : '' }}">
                 <div class="avatar">{{ strtoupper(substr(Auth::guard('admin')->user()->name ?? 'A', 0, 1)) }}</div>
                 <span>{{ Auth::guard('admin')->user()->name }}</span>
-            </div>
+            </a>
             <form method="POST" action="{{ route('admin.logout') }}">
                 @csrf
                 <button type="submit" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Logout</button>

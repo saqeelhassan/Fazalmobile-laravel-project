@@ -41,6 +41,21 @@
             height: 100%;
         }
 
+        /* ── One uniform outer border per card (was only wrapping the
+           text block before, so card boxes lined up unevenly). Scoped to
+           `.product-inner` elements that WRAP a separate `.pd-bd` child
+           (the shop grid markup) — leaves carousel cards using a single
+           combined `.pd-bd.product-inner` element untouched. ── */
+        .product-item > .product-inner:not(.pd-bd) {
+            border: 1px solid #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .product-item > .product-inner:not(.pd-bd) > .pd-bd {
+            border: 0;
+            border-radius: 0;
+        }
+
         /* ── Fixed image box — all same size ── */
         .product-item .product-img,
         .product-inner .product-img {

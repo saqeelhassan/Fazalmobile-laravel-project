@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\BlogPostController;
 use App\Http\Controllers\Admin\AdminUserController;
+use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CheckoutController;
@@ -67,6 +68,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('users',            [AdminUserController::class, 'index'])->name('users.index');
         Route::get('users/{user}',     [AdminUserController::class, 'show'])->name('users.show');
         Route::delete('users/{user}',  [AdminUserController::class, 'destroy'])->name('users.destroy');
+
+        // Profile / account settings
+        Route::get('profile',           [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('profile/password',  [ProfileController::class, 'updatePassword'])->name('profile.password');
     });
 });
 

@@ -460,7 +460,7 @@
                             @foreach($categories as $cat)
                             @php $tabId2 = 'cat-bs-' . Str::slug($cat); @endphp
                             <div id="{{ $tabId2 }}" class="tab-pane fade {{ $firstBs2 ? 'in active' : '' }}">
-                                <div class="row">
+                                <div class="row equal-cards">
                                     @if(isset($byCategory[$cat]) && $byCategory[$cat]->count())
                                         @foreach($byCategory[$cat] as $product)
                                         <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 product-item">
