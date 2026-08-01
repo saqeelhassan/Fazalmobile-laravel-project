@@ -1,0 +1,57 @@
+[
+    {
+        "name": "Smart Watches",
+        "slug": "smart-watches",
+        "status": "active"
+    },
+    {
+        "name": "Games",
+        "slug": "games",
+        "status": "active"
+    },
+    {
+        "name": "Airbuds",
+        "slug": "airbuds",
+        "status": "active"
+    },
+    {
+        "name": "Cables",
+        "slug": "cables",
+        "status": "active"
+    },
+    {
+        "name": "Projector",
+        "slug": "projector",
+        "status": "active"
+    },
+    {
+        "name": "Charger",
+        "slug": "charger",
+        "status": "active"
+    },
+    {
+        "name": "Cooling Fan",
+        "slug": "cooling-fan",
+        "status": "active"
+    },
+    {
+        "name": "Microphone",
+        "slug": "microphone",
+        "status": "active"
+    },
+    {
+        "name": "Speakers",
+        "slug": "speakers",
+        "status": "active"
+    },
+    {
+        "name": "Headphones",
+        "slug": "headphones",
+        "status": "active"
+    },
+    {
+        "name": "Gift Wrap",
+        "slug": "gift-wrap",
+        "status": "active"
+    }
+]
