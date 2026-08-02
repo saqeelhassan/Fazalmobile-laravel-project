@@ -8,6 +8,36 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    /* "Cart" heading pill was narrower (116px) than "Cart totals" (155px) —
+       match them so both column headers read as the same size. */
+    .shopping-cart .page-title.v2 { width: 155px; }
+
+    /* Equal-height Cart / Cart totals columns */
+    .cart-page-row { display: flex; flex-wrap: wrap; }
+    .cart-page-row > [class*="col-"] { display: flex; }
+    .cart-page-row .shopping-cart.bd-7,
+    .cart-page-row .cart-total.bd-7 { width: 100%; }
+
+    /* Pin "Update cart" and "Proceed to checkout" to the same bottom edge
+       of their (now equal-height) boxes, so they line up with each other
+       regardless of how much content is above them. */
+    .cart-page-row .shopping-cart.bd-7,
+    .cart-page-row .cart-total.bd-7 { display: flex; flex-direction: column; }
+    .cart-page-row .shopping-cart.bd-7 .table-cart-bottom,
+    .cart-page-row .cart-total.bd-7 .cart-total-bottom { margin-top: auto; }
+    /* .table-cart-bottom has a built-in 48px bottom padding from the theme;
+       .cart-total-bottom has none — match it so both buttons land at the
+       same distance from their box's bottom edge, not just the same
+       "pinned to bottom" flex position. */
+    .cart-page-row .cart-total.bd-7 .cart-total-bottom { padding-bottom: 48px; }
+
+    @media (max-width: 767px) {
+        .cart-page-row > [class*="col-"] { display: block; }
+        .cart-page-row .shopping-cart.bd-7,
+        .cart-page-row .cart-total.bd-7 { display: block; }
+    }
+</style>
 <!--content-->
         <div class="container container-240">
             
@@ -16,7 +46,7 @@
                     <li><a href="{{ url('/') }}">Home</a></li>
                     <li class="active">Cart</li>
                 </ul>
-                <div class="row">
+                <div class="row cart-page-row">
                     <div class="col-md-8 col-sm-12 col-xs-12">
                         <div class="shopping-cart bd-7">
                             <div class="cmt-title text-center abs">

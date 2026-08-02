@@ -37,6 +37,12 @@
                     <span>Rs. {{ number_format($item->subtotal, 0) }}</span>
                 </div>
                 @endforeach
+                @if($order->delivery_charge > 0)
+                <div style="display:flex;justify-content:space-between;font-size:13.5px;color:#374151;padding:5px 0">
+                    <span>Delivery Charge (COD)</span>
+                    <span>Rs. {{ number_format($order->delivery_charge, 0) }}</span>
+                </div>
+                @endif
                 <div style="border-top:1px solid #e5e7eb;margin:14px 0"></div>
                 <div style="display:flex;justify-content:space-between">
                     <strong style="font-size:15px">Total</strong>

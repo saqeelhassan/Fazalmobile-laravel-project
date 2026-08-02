@@ -32,19 +32,27 @@
                     </div>
                 </div>
                 <div class="container container-240">
-                    <div class="row pd1" style="display:flex;flex-wrap:wrap">
+                    <style>
+                        /* Bootstrap's .row:before/:after clearfix pseudo-elements
+                           become extra (blockified) flex items once .row is
+                           display:flex, which throws off this row's stretch/height
+                           calc — strip them for this specific row. */
+                        .about-content .row.pd1:before,
+                        .about-content .row.pd1:after { content: none; display: none; }
+                    </style>
+                    <div class="row pd1" style="display:flex;flex-wrap:wrap;align-items:stretch">
                         <div class="col-md-6 col-sm-6 col-xs-12" style="display:flex;flex-direction:column">
                             <h3 class="about-title spc">Who we are</h3>
-                            <p class="about-desc spc" style="flex:1">Fazal Mobiles is an online electronics store based in Gulshan-e-Iqbal Colony, Ārifwāla, bringing quality smart watches, gaming accessories, audio gear, cables, chargers and other everyday gadgets to customers across Pakistan at honest prices.</p>
-                            <div class="about-img">
-                                <img src="{{ asset('img/about/about_2.jpg') }}" alt="" class="img-responsive" style="width:100%">
+                            <p class="about-desc spc">Fazal Mobiles is an online electronics store based in Gulshan-e-Iqbal Colony, Ārifwāla, bringing quality smart watches, gaming accessories, audio gear, cables, chargers and other everyday gadgets to customers across Pakistan at honest prices.</p>
+                            <div class="about-img" style="border-radius:10px;overflow:hidden;margin-top:auto">
+                                <img src="{{ asset('img/about/about_2.jpg') }}?v={{ time() }}" alt="Who We Are - Fazal Mobiles" width="680" height="488" class="img-responsive" style="width:100%;aspect-ratio:680/492;object-fit:cover;object-position:center;display:block;border-radius:10px">
                             </div>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12" style="display:flex;flex-direction:column">
                             <h3 class="about-title spc">What we promise</h3>
-                            <p class="about-desc spc" style="flex:1">Every product we sell is genuine and checked before it ships. We keep our range practical and up to date, offer secure payment options, and back every order with real customer support — not just a chatbot.</p>
-                            <div class="about-img">
-                                <img src="{{ asset('img/about/about_3.jpg') }}" alt="" class="img-responsive" style="width:100%">
+                            <p class="about-desc spc">Every product we sell is genuine and checked before it ships. We keep our range practical and up to date, offer secure payment options, and back every order with real customer support — not just a chatbot.</p>
+                            <div class="about-img" style="border-radius:10px;overflow:hidden;margin-top:auto">
+                                <img src="{{ asset('img/about/about_3.jpg') }}?v={{ time() }}" alt="What We Promise - Fazal Mobiles" width="680" height="488" class="img-responsive" style="width:100%;aspect-ratio:680/492;object-fit:cover;object-position:center;display:block;border-radius:10px">
                             </div>
                         </div>
                     </div>

@@ -9,6 +9,30 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    /* Equal-height "Order Notes" box vs "Your order" box: the row is plain
+       floated Bootstrap columns, so each column's height is independent —
+       the left column (Billing details + Order Notes stacked) and right
+       column (order summary) end at different points. Stretch the left
+       column via flex and let "Order Notes" (not "Billing details") absorb
+       the extra height so its bottom lines up with the order summary box. */
+    /* Bootstrap's .row:before/:after clearfix pseudo-elements become extra
+       (blockified) flex items once .row is display:flex, which throws off
+       this row's stretch/height calc — strip them for this row. */
+    .checkout-equal-row:before,
+    .checkout-equal-row:after { content: none; display: none; }
+    .checkout-equal-row { display: flex; flex-wrap: wrap; align-items: stretch; }
+    .checkout-equal-row > .col-md-8 { display: flex; flex-direction: column; }
+    .checkout-equal-row > .col-md-8 > .co-left.bd-7:last-child { flex: 1; display: flex; flex-direction: column; }
+    .checkout-equal-row > .col-md-8 > .co-left.bd-7:last-child .form-customer.v2 { flex: 1; display: flex; flex-direction: column; }
+    .checkout-equal-row > .col-md-8 > .co-left.bd-7:last-child .form-group { flex: 1; display: flex; flex-direction: column; }
+    .checkout-equal-row > .col-md-8 > .co-left.bd-7:last-child textarea.form-note { flex: 1; height: auto; }
+    @media (max-width: 991px) {
+        .checkout-equal-row { display: block; }
+        .checkout-equal-row > .col-md-8 { display: block; }
+        .checkout-equal-row > .col-md-8 > .co-left.bd-7:last-child { display: block; }
+    }
+</style>
 <!--content-->
         <div class="main-content space1">
             <div class="container container-240">
@@ -41,7 +65,7 @@
                     @csrf
                     <input type="hidden" name="cart" id="fmCheckoutCartData" value="">
                     <div class="cart-box-container-ver2">
-                        <div class="row">
+                        <div class="row checkout-equal-row">
                             <div class="col-md-8">
                                 <div class="co-left bd-7">
                                     <div class="cmt-title text-center abs">
@@ -109,6 +133,10 @@
                                                     <th>Subtotal</th>
                                                     <td id="fmCheckoutSubtotal">Rs. 0</td>
                                                 </tr>
+                                                <tr class="cart-subtotal" id="fmCheckoutDeliveryRow">
+                                                    <th>Delivery Charge (COD)</th>
+                                                    <td id="fmCheckoutDelivery">Rs. 300</td>
+                                                </tr>
                                                 <tr class="order-total v2">
                                                     <th>Total</th>
                                                     <td id="fmCheckoutTotal">Rs. 0</td>
@@ -136,7 +164,7 @@
                                     <div class="cart-total-bottom v2">
                                         <button type="submit" class="btn-gradient btn-checkout btn-co-order" id="fmPlaceOrderBtn" style="border:none;cursor:pointer">Place order</button>
                                     </div>
-                                    <p style="font-size:11.5px;color:#9ca3af;margin-top:10px;text-align:center">
+                                    <p style="font-size:11.5px;color:#9ca3af;margin-top:10px;padding:0 20px 30px;text-align:center">
                                         Your order will be reviewed and confirmed by our team. You'll receive an email once it's confirmed.
                                     </p>
                                 </div>
@@ -150,6 +178,12 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 jQuery(function ($) {
+    var DELIVERY_CHARGE = 300;
+
+    function isCod() {
+        return $('input[name="payment_method"]:checked').val() === 'cash';
+    }
+
     function renderSummary() {
         var cart = (window.fmGetCart ? window.fmGetCart() : []);
         var $list = $('#fmCheckoutItems');
@@ -168,8 +202,14 @@ jQuery(function ($) {
         }).join(''));
 
         var subtotal = cart.reduce(function (n, i) { return n + (i.qty || 1) * (parseFloat(i.price) || 0); }, 0);
-        $('#fmCheckoutSubtotal, #fmCheckoutTotal').text('Rs. ' + Number(subtotal).toLocaleString());
+        var delivery = isCod() ? DELIVERY_CHARGE : 0;
+
+        $('#fmCheckoutDeliveryRow').toggle(isCod());
+        $('#fmCheckoutSubtotal').text('Rs. ' + Number(subtotal).toLocaleString());
+        $('#fmCheckoutTotal').text('Rs. ' + Number(subtotal + delivery).toLocaleString());
     }
+
+    $('input[name="payment_method"]').on('change', renderSummary);
 
     $('#fmCheckoutForm').on('submit', function (e) {
         var cart = (window.fmGetCart ? window.fmGetCart() : []);

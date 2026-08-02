@@ -17,6 +17,7 @@ class BlogPostSeeder extends Seeder
             [
                 'title'   => 'How to Choose the Right Smart Watch in 2026: A Complete Buying Guide',
                 'category' => 'Smart Watches',
+                'image'    => 'blog/smartwatch-buying-guide.jpg',
                 'excerpt' => 'Battery life, health tracking, display type, and compatibility — here\'s exactly what to check before buying a smart watch in Pakistan.',
                 'meta_description' => 'A practical 2026 smart watch buying guide: battery life, health sensors, display, compatibility and budget tips for shoppers in Pakistan.',
                 'body' => <<<'HTML'
@@ -44,6 +45,7 @@ HTML,
             [
                 'title'   => 'Wired vs Wireless Gaming Controllers: Which Should You Buy?',
                 'category' => 'Games',
+                'image'    => 'blog/wired-vs-wireless-gaming-controllers.jpg',
                 'excerpt' => 'Latency, battery anxiety, and comfort — we compare wired and wireless gaming controllers so you can pick the right one for your setup.',
                 'meta_description' => 'Wired vs wireless gaming controllers compared: input latency, battery life, comfort and price — find out which is right for your gaming setup.',
                 'body' => <<<'HTML'
@@ -70,6 +72,7 @@ HTML,
             [
                 'title'   => 'True Wireless Airbuds: Sound Quality vs Battery Life Explained',
                 'category' => 'Airbuds',
+                'image'    => 'blog/true-wireless-airbuds-guide.jpg',
                 'excerpt' => 'Not all airbuds are built the same. Here\'s how to weigh sound quality, ANC, and battery life so you don\'t regret your purchase.',
                 'meta_description' => 'Learn how sound quality, active noise cancellation, and battery life trade off in true wireless airbuds, and how to pick the right pair for your needs.',
                 'body' => <<<'HTML'
@@ -94,6 +97,7 @@ HTML,
             [
                 'title'   => 'USB-C vs Lightning vs Micro-USB: A Simple Guide to Charging Cables',
                 'category' => 'Cables',
+                'image'    => 'blog/usb-c-lightning-microusb-cables.jpg',
                 'excerpt' => 'Confused by cable types and charging speeds? Here\'s a plain-English explainer on USB-C, Lightning, and Micro-USB.',
                 'meta_description' => 'A simple explainer on USB-C, Lightning, and Micro-USB cables — charging speeds, durability, and which cable your device actually needs.',
                 'body' => <<<'HTML'
@@ -118,6 +122,7 @@ HTML,
             [
                 'title'   => 'Mini Projectors for Home Cinema: What Resolution and Lumens Actually Mean',
                 'category' => 'Projector',
+                'image'    => 'blog/mini-projectors-home-cinema.jpg',
                 'excerpt' => 'Lumens, resolution, and throw distance explained simply — so you can set up a great home cinema without overspending.',
                 'meta_description' => 'Understand projector lumens, resolution, and throw distance so you can choose the right mini projector for movie nights at home.',
                 'body' => <<<'HTML'
@@ -142,6 +147,7 @@ HTML,
             [
                 'title'   => 'Fast Charger Buying Guide: Watts, Ports, and What "Fast Charging" Really Means',
                 'category' => 'Charger',
+                'image'    => 'blog/fast-charger-buying-guide.jpg',
                 'excerpt' => 'Not all fast chargers are equal. Here\'s how wattage and charging protocols actually affect how quickly your phone charges.',
                 'meta_description' => 'A practical guide to charger wattage, USB Power Delivery, and Quick Charge protocols — pick a fast charger that actually matches your device.',
                 'body' => <<<'HTML'
@@ -166,6 +172,7 @@ HTML,
             [
                 'title'   => 'Do You Really Need a Phone Cooling Fan? Here\'s When It Actually Helps',
                 'category' => 'Cooling Fan',
+                'image'    => 'blog/phone-cooling-fan-guide.jpg',
                 'excerpt' => 'Mobile cooling fans aren\'t just for gamers. Here\'s when a clip-on cooling fan makes a real difference to performance and battery health.',
                 'meta_description' => 'Find out when a phone cooling fan actually improves gaming performance and battery health, and what to look for before buying one.',
                 'body' => <<<'HTML'
@@ -195,6 +202,7 @@ HTML,
             [
                 'title'   => '5 Signs It\'s Time to Upgrade Your Phone Accessories',
                 'category' => 'Buying Guides',
+                'image'    => 'blog/upgrade-phone-accessories.jpg',
                 'excerpt' => 'Frayed cables, dying earbuds, slow chargers — here are five clear signs your current accessories are due for a replacement.',
                 'meta_description' => 'Five practical signs that your phone accessories — cables, chargers, earbuds — need replacing, plus what to upgrade to.',
                 'body' => <<<'HTML'
@@ -232,6 +240,7 @@ HTML,
                     'meta_description'  => $data['meta_description'],
                     'excerpt'           => $data['excerpt'],
                     'body'              => $data['body'],
+                    'image'             => $data['image'],
                     'category'          => $data['category'],
                     'author_name'       => 'Fazal Mobile Team',
                     'status'            => 'active',

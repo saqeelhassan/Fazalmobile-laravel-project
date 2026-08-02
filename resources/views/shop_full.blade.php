@@ -114,11 +114,13 @@
                                         <span class="product-badge badge-new">Featured</span>
                                     @endif
                                     <a href="{{ url('/product/' . $product->slug) }}" class="js-quickview"
+                                       data-id="{{ $product->id }}"
                                        data-name="{{ $product->name }}"
                                        data-cate="{{ $product->category }}"
                                        data-brand="{{ $product->brand }}"
                                        data-stock="{{ $product->stock }}"
                                        data-price="Rs. {{ number_format($product->sale_price ?: $product->price, 0) }}"
+                                       data-price-raw="{{ $product->sale_price ?: $product->price }}"
                                        data-oldprice="{{ $product->sale_price ? 'Rs. ' . number_format($product->price, 0) : '' }}"
                                        data-desc="{{ Str::limit(trim(strip_tags(str_replace(['\r\n', '\n'], ' ', $product->short_description ?: $product->description))), 180) }}"
                                        data-image="{{ $product->image ? Storage::url($product->image) : asset('img/product/img-1.jpg') }}"
@@ -132,10 +134,9 @@
                                     @include('layouts.partials.product-actions', ['product' => $product])
                                 </div>
                                 <div class="pd-bd" style="display:flex;flex-direction:column">
-                                    <h3 class="pd-title" style="min-height:38px;max-height:38px;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:19px">
+                                    <h3 class="pd-title">
                                         <a href="{{ url('/product/' . $product->slug) }}">{{ $product->name }}</a>
                                     </h3>
-                                    <a href="{{ url('/product/' . $product->slug) }}" style="font-size:11px;color:#6c63ff;margin:2px 0 4px;display:inline-block;{{ strlen($product->name) > 45 ? '' : 'visibility:hidden' }}">Read More</a>
                                     @if($product->brand)
                                         <p class="pd-brand" style="font-size:12px;color:#9ca3af;margin:2px 0 4px">{{ $product->brand }}</p>
                                     @endif

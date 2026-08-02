@@ -13,9 +13,17 @@ class Product extends Model
     protected $fillable = [
         'name', 'slug', 'description', 'short_description',
         'price', 'sale_price', 'cost_price', 'sku', 'stock', 'category',
-        'brand', 'image', 'gallery', 'status',
+        'brand', 'image', 'original_image', 'gallery', 'status',
         'is_featured', 'is_on_sale', 'created_by',
     ];
+
+    public function getOriginalImageUrlAttribute(): string
+    {
+        if ($this->original_image) {
+            return \Illuminate\Support\Facades\Storage::url($this->original_image);
+        }
+        return $this->image ? \Illuminate\Support\Facades\Storage::url($this->image) : asset('img/product/pd1.jpg');
+    }
 
     protected $casts = [
         'gallery'     => 'array',

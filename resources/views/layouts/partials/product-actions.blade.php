@@ -59,11 +59,13 @@
 @endphp
 <div class="pa-group">
     <a href="#" class="pa-btn js-quickview" title="Quick View"
+       data-id="{{ $product->id }}"
        data-name="{{ $product->name }}"
        data-cate="{{ $product->category }}"
        data-brand="{{ $product->brand }}"
        data-stock="{{ $product->stock }}"
        data-price="Rs. {{ number_format($product->sale_price ?: $product->price, 0) }}"
+       data-price-raw="{{ $product->sale_price ?: $product->price }}"
        data-oldprice="{{ $product->sale_price ? 'Rs. ' . number_format($product->price, 0) : '' }}"
        data-desc="{{ $paDesc }}"
        data-image="{{ $paImg }}"

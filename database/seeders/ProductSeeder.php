@@ -39,6 +39,7 @@ class ProductSeeder extends Seeder
                     'category'           => $product['category'],
                     'brand'              => $product['brand'],
                     'image'              => $product['image'],
+                    'original_image'     => $product['original_image'] ?? null,
                     'gallery'            => $product['gallery'],
                     'status'             => $product['status'],
                     'is_featured'        => $product['is_featured'],

@@ -91,6 +91,27 @@
             content: none !important;
         }
 
+        /* ── Product card heading: `.pd-title` (shop/category grids) has no
+           font-size of its own, so it falls back to the theme's default
+           `h3 { font-size: 24px }` — way too large for a card. Match the
+           homepage's `.product-title` (14px) so headings look consistent
+           site-wide. ── */
+        .product-item .pd-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1c1c28;
+            text-transform: capitalize;
+            line-height: 1.4;
+            margin: 0 0 6px;
+            min-height: 0;
+            max-height: none;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .product-item .pd-title a { color: inherit; }
+
         /* ── Uniform homepage promo-banner row — equal size regardless of
            each source image's native aspect ratio (h2_b1/b2/b3 differ
            slightly, e.g. 1000x701 vs 1051x701) ── */

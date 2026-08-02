@@ -29,9 +29,9 @@ class CheckoutController extends Controller
         }
 
         $order = DB::transaction(function () use ($request, $cart) {
-            $totalAmount = 0;
-            $totalCost   = 0;
-            $orderItems  = [];
+            $itemsTotal = 0;
+            $totalCost  = 0;
+            $orderItems = [];
 
             foreach ($cart as $line) {
                 $productId = $line['id'] ?? null;
@@ -49,8 +49,8 @@ class CheckoutController extends Controller
                 $cost     = (float) ($product->cost_price ?? 0);
                 $subtotal = $price * $qty;
 
-                $totalAmount += $subtotal;
-                $totalCost   += $cost * $qty;
+                $itemsTotal += $subtotal;
+                $totalCost  += $cost * $qty;
 
                 $orderItems[] = [
                     'product_id'   => $product->id,
@@ -66,6 +66,8 @@ class CheckoutController extends Controller
                 abort(422, 'None of the items in your cart are currently available.');
             }
 
+            $deliveryCharge = $request->payment_method === 'cash' ? Order::COD_DELIVERY_CHARGE : 0;
+
             $order = Order::create([
                 'user_id'          => Auth::id(),
                 'order_number'     => Order::generateOrderNumber(),
@@ -73,9 +75,10 @@ class CheckoutController extends Controller
                 'customer_email'   => $request->customer_email,
                 'customer_phone'   => $request->customer_phone,
                 'customer_address' => $request->customer_address,
-                'total_amount'     => $totalAmount,
+                'total_amount'     => $itemsTotal + $deliveryCharge,
+                'delivery_charge'  => $deliveryCharge,
                 'total_cost'       => $totalCost,
-                'profit'           => $totalAmount - $totalCost,
+                'profit'           => $itemsTotal - $totalCost,
                 'status'           => 'pending',
                 'payment_method'   => $request->payment_method,
                 'payment_status'   => 'unpaid',

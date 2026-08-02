@@ -32,6 +32,12 @@ class HomeController extends Controller
             ->limit(6)
             ->get();
 
-        return view('home2', compact('byCategory', 'featured', 'latest', 'categories'));
+        // All active products (for the homepage "All Products" slider)
+        $allProducts = Product::visible()
+            ->orderByDesc('is_featured')
+            ->latest()
+            ->get();
+
+        return view('home2', compact('byCategory', 'featured', 'latest', 'categories', 'allProducts'));
     }
 }

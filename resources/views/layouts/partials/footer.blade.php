@@ -5,8 +5,8 @@
                     <div class="feature-block text-center">
                         <div class="feature-block-img"><img src="{{ asset('img/feature/truck.png') }}" alt="" class="img-reponsive"></div>
                         <div class="feature-info">
-                            <h3>Worldwide Delivery</h3>
-                            <p>With sites in 5 languages, we ship to over 200 countries &amp; regions.</p>
+                            <h3>Delivery Available in All Pakistan</h3>
+                            <p>We ship orders nationwide with fast, reliable courier service.</p>
                         </div>
                     </div>
                     <div class="feature-block text-center">
@@ -136,10 +136,22 @@
                             <a href="{{ url('/privacy-policy') }}" class="f-bottom-link" style="margin-left:15px">Privacy Policy</a>
                             <span style="margin-left:15px;color:#bbbbbb">Crafted by <a href="https://deweboo.com/" target="_blank" rel="noopener" class="f-bottom-link">De-Weboo</a></span>
                         </div>
-                        <div class="col-xs-6 f-payment hidden-xs">
-                            <img src="{{ asset('img/payment/mastercard.png') }}" alt="Mastercard" class="img-reponsive">
-                            <img src="{{ asset('img/payment/visa.png') }}" alt="Visa" class="img-reponsive">
-                            <img src="{{ asset('img/payment/jcb.png') }}" alt="JCB" class="img-reponsive">
+                        <div class="col-xs-12 col-sm-6 f-payment" style="display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px;margin-top:10px;">
+                            <span style="background:#ffffff;border-radius:6px;padding:3px 8px;display:inline-flex;align-items:center;justify-content:center;height:34px;box-shadow:0 1px 3px rgba(0,0,0,0.25);">
+                                <img src="{{ asset('img/payment/jazzcash.png') }}?v={{ time() }}" alt="JazzCash" title="JazzCash" style="height:26px;width:auto;max-width:65px;object-fit:contain;display:block">
+                            </span>
+                            <span style="background:#ffffff;border-radius:6px;padding:3px 8px;display:inline-flex;align-items:center;justify-content:center;height:34px;box-shadow:0 1px 3px rgba(0,0,0,0.25);">
+                                <img src="{{ asset('img/payment/easypaisa.png') }}?v={{ time() }}" alt="Easypaisa" title="Easypaisa" style="height:26px;width:auto;max-width:65px;object-fit:contain;display:block">
+                            </span>
+                            <span style="background:#ffffff;border-radius:6px;padding:3px 8px;display:inline-flex;align-items:center;justify-content:center;height:34px;box-shadow:0 1px 3px rgba(0,0,0,0.25);">
+                                <img src="{{ asset('img/payment/nayapay.png') }}?v={{ time() }}" alt="NayaPay" title="NayaPay" style="height:26px;width:auto;max-width:65px;object-fit:contain;display:block">
+                            </span>
+                            <span style="background:#ffffff;border-radius:6px;padding:3px 8px;display:inline-flex;align-items:center;justify-content:center;height:34px;box-shadow:0 1px 3px rgba(0,0,0,0.25);">
+                                <img src="{{ asset('img/payment/mastercard.png') }}?v={{ time() }}" alt="Mastercard" title="Mastercard" style="height:26px;width:auto;max-width:65px;object-fit:contain;display:block">
+                            </span>
+                            <span style="background:#ffffff;border-radius:6px;padding:3px 8px;display:inline-flex;align-items:center;justify-content:center;height:34px;box-shadow:0 1px 3px rgba(0,0,0,0.25);">
+                                <img src="{{ asset('img/payment/visa.png') }}?v={{ time() }}" alt="Visa" title="Visa" style="height:26px;width:auto;max-width:65px;object-fit:contain;display:block">
+                            </span>
                         </div>
                     </div>
                 </div>

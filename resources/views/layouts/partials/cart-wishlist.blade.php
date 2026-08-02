@@ -122,6 +122,9 @@ jQuery(function ($) {
 
         $btn.addClass('added');
         setTimeout(function () { $btn.removeClass('added'); }, 900);
+
+        var viewCartTarget = $btn.data('view-cart-target');
+        if (viewCartTarget) { $(viewCartTarget).addClass('show'); }
     });
 
     // Remove from cart (mini cart dropdown)

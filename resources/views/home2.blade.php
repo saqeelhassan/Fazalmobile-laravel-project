@@ -145,6 +145,63 @@
         .slide-boya-img { margin-right: 15px; }
         .slide-boya-img::before, .slide-boya-img::after { display: none; }
     }
+    /* ── Sale ribbon badge: theme default hangs it partially outside the
+       image box (top:-17px; right:-15px), but `.product-img` clips
+       overflow (needed for the hover-zoom effect) — pull it fully inside
+       so it isn't cut off. ── */
+    .product-item .product-img .ribbon-price { top: 10px; right: 10px; }
+
+    /* ── All Products slider — arrows styled to match the hero slider's
+       (.slide-fullw .slick-arrow) white rounded-square buttons, positioned
+       side-by-side at the left/right edges instead of stacked below.
+       Note: Owl Carousel's default navElement is a <div>, not a <button> —
+       must NOT restrict the selector to `button.owl-prev`/`button.owl-next`
+       or it silently matches nothing and falls back to default styling. ── */
+    .js-owl-allproducts { position: relative; }
+    .js-owl-allproducts .owl-dots { display: none; }
+    .js-owl-allproducts .owl-nav { margin: 0; }
+    .js-owl-allproducts .owl-nav .owl-prev,
+    .js-owl-allproducts .owl-nav .owl-next {
+        position: absolute;
+        top: 40%;
+        transform: translateY(-50%);
+        width: 44px;
+        height: 44px;
+        line-height: 44px;
+        border-radius: 5px;
+        background: #fff !important;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, .14);
+        text-align: center;
+        font-size: 20px;
+        color: #333 !important;
+        transition: all 0.3s ease;
+        z-index: 3;
+        margin: 0;
+        padding: 0;
+    }
+    .js-owl-allproducts .owl-nav .owl-prev:hover,
+    .js-owl-allproducts .owl-nav .owl-next:hover {
+        background: rgba(255, 255, 255, 0.75) !important;
+    }
+    .js-owl-allproducts .owl-nav .owl-prev { left: -60px; }
+    .js-owl-allproducts .owl-nav .owl-next { right: -60px; }
+    @media (max-width: 1300px) {
+        .js-owl-allproducts .owl-nav .owl-prev { left: -20px; }
+        .js-owl-allproducts .owl-nav .owl-next { right: -20px; }
+    }
+    @media (max-width: 767px) {
+        .js-owl-allproducts .owl-nav .owl-prev,
+        .js-owl-allproducts .owl-nav .owl-next { width: 34px; height: 34px; line-height: 34px; font-size: 16px; }
+        .js-owl-allproducts .owl-nav .owl-prev { left: -6px; }
+        .js-owl-allproducts .owl-nav .owl-next { right: -6px; }
+    }
+
+    /* ── From Our Blog slider — same "arrow away from card border" spacing
+       as the All Products slider above (theme default was only -20px). ── */
+    @media (min-width: 1025px) {
+        .our-blog .owl-nav > div.owl-prev { left: -60px; }
+        .our-blog .owl-nav > div.owl-next { right: -60px; }
+    }
     @media (max-width: 767px) {
         .slide-boya { min-height: auto; padding: 50px 0; }
         .slide-boya-inner { flex-direction: column-reverse; text-align: center; gap: 25px; }
@@ -178,7 +235,7 @@
                                 <a href="{{ url('/product/' . $heroProduct->slug) }}" class="slide-btn e-pink-gradient" tabindex="0">Shop now<i class="ion-ios-arrow-forward"></i></a>
                             </div>
                             <div class="slide-boya-img">
-                                <img src="{{ $heroProduct->image ? Storage::url($heroProduct->image) : asset('img/product/pd1.jpg') }}" alt="{{ $heroProduct->name }}">
+                                <img src="{{ $heroProduct->original_image_url }}" alt="{{ $heroProduct->name }}">
                             </div>
                         </div>
                     </div>
@@ -204,13 +261,22 @@
         <div class="homepage-banner spc2">
             <div class="container container-240">
                 <div class="row">
-                    @php $catBanners = ['img/banner/h2_b1.jpg', 'img/banner/h2_b2.jpg', 'img/banner/h2_b3.jpg']; @endphp
-                    @foreach(array_slice($categories, 0, 3) as $i => $cat)
+                    @php
+                        // Each banner image is a fixed marketing graphic for a specific
+                        // category (cooling fan / smart watch / game controller) — the
+                        // caption must match the image, not just "the first 3 categories".
+                        $catBanners = [
+                            ['img' => 'img/banner/h2_b1.jpg', 'cat' => 'Cooling Fan'],
+                            ['img' => 'img/banner/h2_b2.jpg', 'cat' => 'Smart Watches'],
+                            ['img' => 'img/banner/h2_b3.jpg', 'cat' => 'Games'],
+                        ];
+                    @endphp
+                    @foreach($catBanners as $banner)
                     <div class="col-md-4 col-sm-4 col-xs-4">
                         <div class="banner-img effect-img3 plus-zoom" style="text-align:center;padding:40px 15px;border-radius:6px;overflow:hidden">
-                            <a href="{{ url('/shop?category=' . urlencode($cat)) }}">
-                                <img src="{{ asset($catBanners[$i]) }}" alt="{{ $cat }}" style="width:100%;height:auto;border-radius:6px;margin-bottom:12px">
-                                <h3 style="font-size:18px;margin:0">{{ $cat }}</h3>
+                            <a href="{{ url('/shop?category=' . urlencode($banner['cat'])) }}">
+                                <img src="{{ asset($banner['img']) }}" alt="{{ $banner['cat'] }}" style="width:100%;height:auto;border-radius:6px;margin-bottom:12px">
+                                <h3 style="font-size:18px;margin:0">{{ $banner['cat'] }}</h3>
                             </a>
                         </div>
                     </div>
@@ -345,11 +411,13 @@
                                             <div class="pd-bd product-inner">
                                                 <div class="product-img">
                                                     <a href="{{ url('/product/' . $product->slug) }}" class="js-quickview"
+                                                       data-id="{{ $product->id }}"
                                                        data-name="{{ $product->name }}"
                                                        data-cate="{{ $product->category }}"
                                                        data-brand="{{ $product->brand }}"
                                                        data-stock="{{ $product->stock }}"
                                                        data-price="Rs. {{ number_format($product->sale_price ?: $product->price, 0) }}"
+                                                       data-price-raw="{{ $product->sale_price ?: $product->price }}"
                                                        data-oldprice="{{ $product->sale_price ? 'Rs. ' . number_format($product->price, 0) : '' }}"
                                                        data-desc="{{ Str::limit(trim(strip_tags(str_replace(['\r\n', '\n'], ' ', $product->short_description ?: $product->description))), 180) }}"
                                                        data-image="{{ $product->image ? Storage::url($product->image) : asset('img/product/pd1.jpg') }}"
@@ -433,99 +501,68 @@
                 </div>
                 <p class="ecome-info spc3">Explore everything we carry in one place</p>
 
-                @php
-                    $firstBs = true;
-                @endphp
-
-                <div class="row">
-                    <div class="col-md-3 col-sm-4 col-xs-12">
-                        <ul class="tab-link">
-                            @foreach($categories as $cat)
-                            @php $tabId2 = 'cat-bs-' . Str::slug($cat); @endphp
-                            <li class="{{ $firstBs ? 'active' : '' }}">
-                                <a data-toggle="tab" href="#{{ $tabId2 }}">
-                                    <div class="tab-link-info flex align-center">
-                                        <img src="{{ asset($catIcons[$cat] ?? 'img/category/1.png') }}" alt="">
-                                        <span>{{ $cat }}</span>
-                                    </div>
-                                </a>
-                            </li>
-                            @php $firstBs = false; @endphp
-                            @endforeach
-                        </ul>
-                    </div>
-                    <div class="col-md-9 col-sm-8 col-xs-12">
-                        <div class="tab-content">
-                            @php $firstBs2 = true; @endphp
-                            @foreach($categories as $cat)
-                            @php $tabId2 = 'cat-bs-' . Str::slug($cat); @endphp
-                            <div id="{{ $tabId2 }}" class="tab-pane fade {{ $firstBs2 ? 'in active' : '' }}">
-                                <div class="row equal-cards">
-                                    @if(isset($byCategory[$cat]) && $byCategory[$cat]->count())
-                                        @foreach($byCategory[$cat] as $product)
-                                        <div class="col-xs-6 col-sm-6 col-md-4 col-lg-4 product-item">
-                                            <div class="pd-bd product-inner">
-                                                <div class="product-img">
-                                                    <a href="{{ url('/product/' . $product->slug) }}" class="js-quickview"
-                                                       data-name="{{ $product->name }}"
-                                                       data-cate="{{ $product->category }}"
-                                                       data-brand="{{ $product->brand }}"
-                                                       data-stock="{{ $product->stock }}"
-                                                       data-price="Rs. {{ number_format($product->sale_price ?: $product->price, 0) }}"
-                                                       data-oldprice="{{ $product->sale_price ? 'Rs. ' . number_format($product->price, 0) : '' }}"
-                                                       data-desc="{{ Str::limit(trim(strip_tags(str_replace(['\r\n', '\n'], ' ', $product->short_description ?: $product->description))), 180) }}"
-                                                       data-image="{{ $product->image ? Storage::url($product->image) : asset('img/product/pd1.jpg') }}"
-                                                       data-url="{{ url('/product/' . $product->slug) }}">
-                                                        @if($product->image)
-                                                            <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}" class="img-reponsive" style="width:100%;height:220px;object-fit:cover">
-                                                        @else
-                                                            <img src="{{ asset('img/product/pd1.jpg') }}" alt="{{ $product->name }}" class="img-reponsive" style="width:100%;height:220px;object-fit:cover">
-                                                        @endif
-                                                    </a>
-                                                    @if($product->is_on_sale && $product->sale_price)
-                                                        @php $disc = round((1 - $product->sale_price/$product->price)*100); @endphp
-                                                        <div class="ribbon-price red"><span>- {{ $disc }}%</span></div>
-                                                    @endif
-                                                    @include('layouts.partials.product-actions', ['product' => $product])
-                                                </div>
-                                                <div class="product-info">
-                                                    <div class="element-list element-list-middle">
-                                                        <p class="product-cate">{{ $product->category }}</p>
-                                                        <h3 class="product-title"><a href="{{ url('/product/' . $product->slug) }}">{{ $product->name }}</a></h3>
-                                                        @if($product->short_description)
-                                                            <div class="element-list element-list-left">
-                                                                <p style="font-size:12px;color:#888;margin-bottom:6px">{{ Str::limit($product->short_description, 60) }}</p>
-                                                            </div>
-                                                        @endif
-                                                        <div class="product-bottom">
-                                                            <div class="product-price">
-                                                                @if($product->sale_price)
-                                                                    <span class="red">Rs. {{ number_format($product->sale_price, 0) }}</span>
-                                                                    <span class="old">Rs. {{ number_format($product->price, 0) }}</span>
-                                                                @else
-                                                                    <span>Rs. {{ number_format($product->price, 0) }}</span>
-                                                                @endif
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endforeach
+                @if($allProducts->count())
+                <div class="owl-carousel owl-theme owl-cate v2 js-owl-allproducts">
+                    @foreach($allProducts as $product)
+                    <div class="product-item">
+                        <div class="pd-bd product-inner">
+                            <div class="product-img">
+                                <a href="{{ url('/product/' . $product->slug) }}" class="js-quickview"
+                                   data-id="{{ $product->id }}"
+                                   data-name="{{ $product->name }}"
+                                   data-cate="{{ $product->category }}"
+                                   data-brand="{{ $product->brand }}"
+                                   data-stock="{{ $product->stock }}"
+                                   data-price="Rs. {{ number_format($product->sale_price ?: $product->price, 0) }}"
+                                   data-price-raw="{{ $product->sale_price ?: $product->price }}"
+                                   data-oldprice="{{ $product->sale_price ? 'Rs. ' . number_format($product->price, 0) : '' }}"
+                                   data-desc="{{ Str::limit(trim(strip_tags(str_replace(['\r\n', '\n'], ' ', $product->short_description ?: $product->description))), 180) }}"
+                                   data-image="{{ $product->image ? Storage::url($product->image) : asset('img/product/pd1.jpg') }}"
+                                   data-url="{{ url('/product/' . $product->slug) }}">
+                                    @if($product->image)
+                                        <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}" class="img-reponsive" style="width:100%;height:220px;object-fit:cover">
                                     @else
-                                        <div class="col-xs-12" style="padding:40px;text-align:center;color:#999">
-                                            <i class="fas fa-box-open" style="font-size:36px;margin-bottom:10px;display:block"></i>
-                                            No products in <strong>{{ $cat }}</strong> yet.<br>
-                                            <small>Add products from the <a href="{{ url('/admin') }}" style="color:#f96f5d">Admin Panel</a></small>
+                                        <img src="{{ asset('img/product/pd1.jpg') }}" alt="{{ $product->name }}" class="img-reponsive" style="width:100%;height:220px;object-fit:cover">
+                                    @endif
+                                </a>
+                                @if($product->is_on_sale && $product->sale_price)
+                                    @php $disc = round((1 - $product->sale_price/$product->price)*100); @endphp
+                                    <div class="ribbon-price red"><span>- {{ $disc }}%</span></div>
+                                @endif
+                                @include('layouts.partials.product-actions', ['product' => $product])
+                            </div>
+                            <div class="product-info">
+                                <div class="element-list element-list-middle">
+                                    <p class="product-cate">{{ $product->category }}</p>
+                                    <h3 class="product-title"><a href="{{ url('/product/' . $product->slug) }}">{{ $product->name }}</a></h3>
+                                    @if($product->short_description)
+                                        <div class="element-list element-list-left">
+                                            <p style="font-size:12px;color:#888;margin-bottom:6px">{{ Str::limit($product->short_description, 60) }}</p>
                                         </div>
                                     @endif
+                                    <div class="product-bottom">
+                                        <div class="product-price">
+                                            @if($product->sale_price)
+                                                <span class="red">Rs. {{ number_format($product->sale_price, 0) }}</span>
+                                                <span class="old">Rs. {{ number_format($product->price, 0) }}</span>
+                                            @else
+                                                <span>Rs. {{ number_format($product->price, 0) }}</span>
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                            @php $firstBs2 = false; @endphp
-                            @endforeach
                         </div>
                     </div>
+                    @endforeach
                 </div>
+                @else
+                <div style="padding:40px;text-align:center;color:#999">
+                    <i class="fas fa-box-open" style="font-size:36px;margin-bottom:10px;display:block"></i>
+                    No products yet.<br>
+                    <small>Add products from the <a href="{{ url('/admin') }}" style="color:#f96f5d">Admin Panel</a></small>
+                </div>
+                @endif
             </div>
         </div>
         <!-- End best seller -->
@@ -544,9 +581,9 @@
                 <div class="product-tab-pd owl-carousel owl-theme js-owl-blog owl-custom-dots v2">
                     @foreach($latestBlogPosts as $post)
                     <div class="blog-post-item v3">
-                        <div class="blog-img">
-                            <a href="{{ url('/blog/' . $post->slug) }}" class="hover-images">
-                                <img src="{{ $post->image ? \Illuminate\Support\Facades\Storage::url($post->image) : asset('img/blog/h2_blog1.jpg') }}" alt="{{ $post->title }}" class="img-reponsive">
+                        <div class="blog-img" style="width:100%; max-width:440px; height:345px; overflow:hidden; border-radius:10px;">
+                            <a href="{{ url('/blog/' . $post->slug) }}" class="hover-images" style="display:block; width:100%; height:100%;">
+                                <img src="{{ $post->image ? \Illuminate\Support\Facades\Storage::url($post->image) : asset('img/blog/h2_blog1.jpg') }}" alt="{{ $post->title }}" width="440" height="345" style="width:100%; height:345px; object-fit:cover; border-radius:10px;" class="img-reponsive">
                             </a>
                         </div>
                         <div class="heading-blog flex align-center">
@@ -677,4 +714,27 @@
             </div>
         </div>
         @endif
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    jQuery(function ($) {
+        $('.js-owl-allproducts').owlCarousel({
+            margin: 30,
+            autoplay: true,
+            autoplayTimeout: 3000,
+            autoplayHoverPause: true,
+            loop: true,
+            dots: false,
+            nav: true,
+            navText: ["<i class='fa fa-angle-left'></i>", "<i class='fa fa-angle-right'></i>"],
+            responsive: {
+                0:    { items: 1 },
+                480:  { items: 2 },
+                1024: { items: 3 },
+                1200: { items: 3 },
+                1600: { items: 3, margin: 40 }
+            }
+        });
+    });
+});
+</script>
 @endsection

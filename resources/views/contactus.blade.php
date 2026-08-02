@@ -85,11 +85,12 @@
                           </form>
                     </div>
                 </div>
-                <div class="banner-callus image-bd effect_img2">
-                    <a href="{{ url('/shop') }}"><img src="{{ asset('img/banner/h1_b7.jpg') }}" alt="" class="img-responsive"></a>
-                    <div class="box-center v2">
-                        <p>Call us free : {{ SITE_PHONE }}</p>
-                        <a href="{{ url('/shop') }}" class="btn-callus">Shop now</a>
+                <div class="banner-callus image-bd effect_img2" style="position:relative; overflow:hidden; border-radius:10px;">
+                    <a href="{{ url('/shop') }}"><img src="{{ asset('img/banner/h1_b7.jpg') }}" alt="Fazal Mobiles Contact" class="img-responsive" style="width:100%; height:auto; display:block;"></a>
+                    <div class="box-center v2" style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%); width:90%; max-width:600px; text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0 !important; margin:0; z-index:10;">
+                        <span style="color:#ffffff; font-size:22px; font-weight:400; letter-spacing:1.5px; text-transform:uppercase; display:block; opacity:0.9; margin:0 0 4px 0;">Call us free</span>
+                        <span style="color:#ffffff; font-size:40px; font-weight:700; display:block; line-height:1.2; letter-spacing:0.5px; margin:0 0 10px 0;">{{ SITE_PHONE }}</span>
+                        <a href="{{ url('/shop') }}" class="btn-callus" style="font-size:16px; text-decoration:none; margin:0;">Shop now</a>
                     </div>
                 </div>
             </div>
