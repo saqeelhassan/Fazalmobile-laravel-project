@@ -116,15 +116,23 @@
         .upload-area{border:2px dashed #d1d5db;border-radius:8px;padding:20px;text-align:center;cursor:pointer;color:#9ca3af;font-size:13px;transition:border .2s}
         .upload-area:hover{border-color:#6c63ff;color:#6c63ff}
 
-        /* Print: hide chrome, let printable content fill the page */
+        /* Print: A4 page, hide app chrome, let the report read like a
+           standalone printed/PDF document rather than a screenshot of the
+           dashboard. */
         .print-only { display: none; }
         @media print {
+            @page { size: A4; margin: 14mm 12mm; }
+            html, body { background: #fff !important; }
             .sidebar, .topbar, .no-print { display: none !important; }
             .main { margin-left: 0 !important; }
             .content { padding: 0 !important; }
-            body { background: #fff !important; }
-            .card { box-shadow: none !important; border: 1px solid #e5e7eb !important; break-inside: avoid; }
+            .card { box-shadow: none !important; border: 1px solid #dcdfe4 !important; break-inside: avoid; }
             .print-only { display: block !important; }
+            .report-stack-print { display: block !important; }
+            .report-stack-print > * + * { margin-top: 16px; }
+            table { font-size: 11px !important; }
+            thead th { background: #f3f4f6 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            a { color: inherit !important; text-decoration: none !important; }
         }
     </style>
     @stack('styles')

@@ -1,3 +1,4 @@
+@include('layouts.partials.config')
 @extends('admin.layout')
 @section('title', 'Reports')
 @section('page-title', 'Sales & Profit Reports')
@@ -31,14 +32,29 @@
     </form>
 </div>
 
-{{-- Printed report header — only visible when printing/saving as PDF --}}
-<div class="print-only" style="display:none;margin-bottom:20px">
-    <h1 style="font-size:20px;font-weight:700;margin-bottom:4px">{{ config('app.name') }} — Sales &amp; Profit Report</h1>
-    <div style="font-size:12px;color:#6b7280">Generated {{ now()->format('d M Y, h:i A') }}</div>
+{{-- Printed report letterhead — only visible when printing/saving as PDF --}}
+<div class="print-only" style="display:none;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid #1f2937">
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:20px">
+        <div>
+            <h1 style="font-size:21px;font-weight:800;color:#1f2937;margin-bottom:6px">{{ SITE_NAME ?? config('app.name') }}</h1>
+            <div style="font-size:11px;color:#6b7280;line-height:1.6">
+                {{ SITE_ADDRESS }}<br>
+                {{ SITE_PHONE }} &nbsp;&bull;&nbsp; {{ SITE_EMAIL }}
+            </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+            <div style="font-size:15px;font-weight:700;color:#6c63ff;text-transform:uppercase;letter-spacing:.5px">Sales &amp; Profit Report</div>
+            <div style="font-size:11px;color:#6b7280;margin-top:6px">
+                {{ \Carbon\Carbon::parse($from)->format('d M Y') }}
+                @if($from !== $to) &ndash; {{ \Carbon\Carbon::parse($to)->format('d M Y') }} @endif
+            </div>
+            <div style="font-size:10px;color:#9ca3af;margin-top:2px">Generated {{ now()->format('d M Y, h:i A') }}</div>
+        </div>
+    </div>
 </div>
 
-{{-- Period Label --}}
-<div style="margin-bottom:16px;font-size:13px;color:#9ca3af">
+{{-- Period Label (screen only) --}}
+<div class="no-print" style="margin-bottom:16px;font-size:13px;color:#9ca3af">
     <i class="fas fa-calendar"></i>
     Showing: <strong style="color:#1f2937">{{ \Carbon\Carbon::parse($from)->format('d M Y') }}</strong>
     @if($from !== $to) to <strong style="color:#1f2937">{{ \Carbon\Carbon::parse($to)->format('d M Y') }}</strong> @endif
@@ -80,7 +96,7 @@
 </div>
 
 {{-- COD vs Bank Transfer --}}
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
+<div class="report-stack-print" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
     <div class="card" style="border-top:4px solid #f59e0b">
         <div class="card-body" style="padding:20px">
             <h3 style="font-size:14px;font-weight:700;margin-bottom:16px;color:#1f2937">
@@ -133,7 +149,7 @@
     </div>
 </div>
 
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+<div class="report-stack-print" style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
 
     {{-- Daily Breakdown --}}
     <div class="card">
@@ -215,6 +231,64 @@
         </div>
     </div>
 
+</div>
+
+{{-- Product Profit Report --}}
+<div class="card" style="margin-top:20px">
+    <div class="card-body" style="padding:20px">
+        <h3 style="font-size:14px;font-weight:700;margin-bottom:16px;color:#1f2937">
+            <i class="fas fa-chart-pie" style="color:#10b981"></i> Product Profit Report
+        </h3>
+        @if($productProfit->isEmpty())
+            <div style="text-align:center;padding:30px;color:#9ca3af">
+                <i class="fas fa-box-open" style="font-size:28px;display:block;margin-bottom:8px"></i>
+                No sales data available
+            </div>
+        @else
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Product</th>
+                    <th style="text-align:center">Units</th>
+                    <th style="text-align:right">Revenue (Rs.)</th>
+                    <th style="text-align:right">Cost (Rs.)</th>
+                    <th style="text-align:right">Profit (Rs.)</th>
+                    <th style="text-align:right">Margin</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($productProfit as $i => $product)
+                @php $margin = $product->total_revenue > 0 ? round(($product->total_profit / $product->total_revenue) * 100, 1) : 0; @endphp
+                <tr>
+                    <td style="color:#9ca3af;font-weight:700">{{ $i+1 }}</td>
+                    <td style="font-size:13px">{{ $product->product_name }}</td>
+                    <td style="text-align:center;font-weight:700">{{ $product->total_qty }}</td>
+                    <td style="text-align:right">{{ number_format($product->total_revenue,0) }}</td>
+                    <td style="text-align:right;color:#9ca3af">{{ number_format($product->total_cost,0) }}</td>
+                    <td style="text-align:right;font-weight:700;color:{{ $product->total_profit>=0?'#10b981':'#ef4444' }}">{{ number_format($product->total_profit,0) }}</td>
+                    <td style="text-align:right;color:{{ $product->total_profit>=0?'#10b981':'#ef4444' }}">{{ $margin }}%</td>
+                </tr>
+                @endforeach
+            </tbody>
+            <tfoot>
+                @php
+                    $ppRevenue = $productProfit->sum('total_revenue');
+                    $ppCost    = $productProfit->sum('total_cost');
+                    $ppProfit  = $productProfit->sum('total_profit');
+                @endphp
+                <tr style="border-top:2px solid #e5e7eb;font-weight:700">
+                    <td colspan="2">Total</td>
+                    <td style="text-align:center">{{ $productProfit->sum('total_qty') }}</td>
+                    <td style="text-align:right">{{ number_format($ppRevenue,0) }}</td>
+                    <td style="text-align:right;color:#9ca3af">{{ number_format($ppCost,0) }}</td>
+                    <td style="text-align:right;color:{{ $ppProfit>=0?'#10b981':'#ef4444' }}">{{ number_format($ppProfit,0) }}</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+        @endif
+    </div>
 </div>
 
 {{-- Low Stock Alert --}}

@@ -72,6 +72,25 @@ class ReportController extends Controller
             ->limit(10)
             ->get();
 
+        // Profit by product in range — cost, revenue, and profit per product,
+        // ranked by profit (not just units sold) so low-margin bestsellers
+        // don't hide which products actually make money.
+        $productProfit = OrderItem::whereHas('order', function ($q) use ($from, $to) {
+                $q->whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
+                  ->where('status', '!=', 'cancelled');
+            })
+            ->select(
+                'product_name',
+                DB::raw('SUM(quantity) as total_qty'),
+                DB::raw('SUM(subtotal) as total_revenue'),
+                DB::raw('SUM(quantity * unit_cost) as total_cost'),
+                DB::raw('SUM(subtotal) - SUM(quantity * unit_cost) as total_profit')
+            )
+            ->groupBy('product_name')
+            ->orderByDesc('total_profit')
+            ->limit(15)
+            ->get();
+
         // Recent orders
         $recentOrders = Order::whereBetween(DB::raw('DATE(created_at)'), [$from, $to])
             ->latest()
@@ -95,7 +114,7 @@ class ReportController extends Controller
         $bankReport = $byPaymentMethod->get('bank_transfer');
 
         return view('admin.reports.index', compact(
-            'period', 'from', 'to', 'summary', 'dailyData', 'topProducts', 'recentOrders', 'lowStock',
+            'period', 'from', 'to', 'summary', 'dailyData', 'topProducts', 'productProfit', 'recentOrders', 'lowStock',
             'codReport', 'bankReport'
         ));
     }
