@@ -8,7 +8,7 @@ class Order extends Model
 {
     protected $fillable = [
         'user_id', 'order_number', 'customer_name', 'customer_phone', 'customer_address', 'customer_email',
-        'total_amount', 'delivery_charge', 'total_cost', 'profit',
+        'total_amount', 'delivery_charge', 'discount_amount', 'total_cost', 'profit',
         'status', 'payment_method', 'payment_status', 'stock_deducted',
         'notes', 'created_by',
     ];
@@ -16,6 +16,7 @@ class Order extends Model
     protected $casts = [
         'total_amount'    => 'decimal:2',
         'delivery_charge' => 'decimal:2',
+        'discount_amount' => 'decimal:2',
         'total_cost'      => 'decimal:2',
         'profit'          => 'decimal:2',
         'stock_deducted'  => 'boolean',

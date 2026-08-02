@@ -48,6 +48,8 @@ class OrderController extends Controller
             'customer_address' => ['nullable', 'string', 'max:500'],
             'payment_method'   => ['required', 'in:cash,bank_transfer,card'],
             'payment_status'   => ['required', 'in:unpaid,paid'],
+            'delivery_charge'  => ['nullable', 'numeric', 'min:0'],
+            'discount_amount'  => ['nullable', 'numeric', 'min:0'],
             'notes'            => ['nullable', 'string', 'max:1000'],
             'items'            => ['required', 'array', 'min:1'],
             'items.*.product_id' => ['required', 'exists:products,id'],
@@ -100,14 +102,19 @@ class OrderController extends Controller
                 ]);
             }
 
+            $deliveryCharge = (float) ($request->delivery_charge ?? 0);
+            $discountAmount = min((float) ($request->discount_amount ?? 0), $totalAmount);
+
             $order = Order::create([
                 'order_number'   => Order::generateOrderNumber(),
                 'customer_name'  => $request->customer_name,
                 'customer_phone' => $request->customer_phone,
                 'customer_address' => $request->customer_address,
-                'total_amount'   => $totalAmount,
+                'total_amount'   => $totalAmount + $deliveryCharge - $discountAmount,
+                'delivery_charge' => $deliveryCharge,
+                'discount_amount' => $discountAmount,
                 'total_cost'     => $totalCost,
-                'profit'         => $totalAmount - $totalCost,
+                'profit'         => $totalAmount - $discountAmount - $totalCost,
                 'status'         => 'confirmed',
                 'payment_method' => $request->payment_method,
                 'payment_status' => $request->payment_status,

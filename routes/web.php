@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\ReportController;
 use App\Http\Controllers\Admin\BlogPostController;
 use App\Http\Controllers\Admin\AdminUserController;
 use App\Http\Controllers\Admin\ProfileController;
+use App\Http\Controllers\Admin\SubscriberController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\CheckoutController;
@@ -53,6 +54,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('inventory',        [InventoryController::class, 'index'])->name('inventory.index');
         Route::get('inventory/add',    [InventoryController::class, 'create'])->name('inventory.create');
         Route::post('inventory',       [InventoryController::class, 'store'])->name('inventory.store');
+        Route::get('inventory/{transaction}/edit', [InventoryController::class, 'edit'])->name('inventory.edit');
+        Route::put('inventory/{transaction}',      [InventoryController::class, 'update'])->name('inventory.update');
+        Route::delete('inventory/{transaction}',   [InventoryController::class, 'destroy'])->name('inventory.destroy');
 
         // Orders
         Route::get('orders',           [OrderController::class, 'index'])->name('orders.index');
@@ -68,6 +72,10 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('users',            [AdminUserController::class, 'index'])->name('users.index');
         Route::get('users/{user}',     [AdminUserController::class, 'show'])->name('users.show');
         Route::delete('users/{user}',  [AdminUserController::class, 'destroy'])->name('users.destroy');
+
+        // Newsletter subscribers
+        Route::get('subscribers',           [SubscriberController::class, 'index'])->name('subscribers.index');
+        Route::delete('subscribers/{subscriber}', [SubscriberController::class, 'destroy'])->name('subscribers.destroy');
 
         // Profile / account settings
         Route::get('profile',           [ProfileController::class, 'edit'])->name('profile.edit');
@@ -91,6 +99,7 @@ Route::get('/checkout/success/{orderNumber}', [CheckoutController::class, 'succe
 Route::get('/contact', fn() => view('contactus'))->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store')->middleware('throttle:5,1');
 Route::post('/newsletter/subscribe', [NewsletterController::class, 'store'])->name('newsletter.subscribe')->middleware('throttle:5,1');
+Route::get('/help', fn() => view('help'))->name('help');
 Route::get('/faq', fn() => view('faq'))->name('faq');
 Route::get('/returns-exchange', fn() => view('returns-exchange'))->name('returns-exchange');
 Route::get('/customer-service', fn() => view('customer-service'))->name('customer-service');

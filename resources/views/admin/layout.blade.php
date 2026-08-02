@@ -111,6 +111,17 @@
         .img-preview{width:80px;height:80px;object-fit:cover;border-radius:8px;margin-top:8px;border:2px solid #e5e7eb}
         .upload-area{border:2px dashed #d1d5db;border-radius:8px;padding:20px;text-align:center;cursor:pointer;color:#9ca3af;font-size:13px;transition:border .2s}
         .upload-area:hover{border-color:#6c63ff;color:#6c63ff}
+
+        /* Print: hide chrome, let printable content fill the page */
+        .print-only { display: none; }
+        @media print {
+            .sidebar, .topbar, .no-print { display: none !important; }
+            .main { margin-left: 0 !important; }
+            .content { padding: 0 !important; }
+            body { background: #fff !important; }
+            .card { box-shadow: none !important; border: 1px solid #e5e7eb !important; break-inside: avoid; }
+            .print-only { display: block !important; }
+        }
     </style>
     @stack('styles')
 </head>
@@ -168,6 +179,9 @@
         </a>
         <a href="{{ route('admin.users.index') }}" class="nav-item {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
             <i class="fas fa-users"></i> Customers
+        </a>
+        <a href="{{ route('admin.subscribers.index') }}" class="nav-item {{ request()->routeIs('admin.subscribers.*') ? 'active' : '' }}">
+            <i class="fas fa-envelope"></i> Subscribers
         </a>
         <div class="nav-section">Analytics</div>
         <a href="{{ route('admin.reports.index') }}" class="nav-item {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}">

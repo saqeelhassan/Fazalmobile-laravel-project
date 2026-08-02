@@ -5,7 +5,7 @@
 @section('content')
 
 {{-- Period Filter --}}
-<div class="form-card" style="margin-bottom:20px">
+<div class="form-card no-print" style="margin-bottom:20px">
     <form method="GET" style="display:flex;gap:12px;align-items:flex-end;flex-wrap:wrap">
         <div>
             <label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;color:#6b7280">Period</label>
@@ -19,15 +19,22 @@
         <div id="customDates" style="display:{{ $period==='custom'?'flex':'none' }};gap:8px">
             <div>
                 <label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;color:#6b7280">From</label>
-                <input type="date" name="from" value="{{ $from }}" style="padding:8px 12px;border:1px solid #e5e7eb;border-radius:6px;font-size:13px">
+                <input type="date" name="from" value="{{ $from }}" {{ $period!=='custom'?'disabled':'' }} style="padding:8px 12px;border:1px solid #e5e7eb;border-radius:6px;font-size:13px">
             </div>
             <div>
                 <label style="font-size:12px;font-weight:600;display:block;margin-bottom:4px;color:#6b7280">To</label>
-                <input type="date" name="to" value="{{ $to }}" style="padding:8px 12px;border:1px solid #e5e7eb;border-radius:6px;font-size:13px">
+                <input type="date" name="to" value="{{ $to }}" {{ $period!=='custom'?'disabled':'' }} style="padding:8px 12px;border:1px solid #e5e7eb;border-radius:6px;font-size:13px">
             </div>
         </div>
         <button type="submit" class="btn btn-primary"><i class="fas fa-chart-bar"></i> Generate Report</button>
+        <button type="button" class="btn btn-secondary" onclick="window.print()"><i class="fas fa-print"></i> Print Report</button>
     </form>
+</div>
+
+{{-- Printed report header — only visible when printing/saving as PDF --}}
+<div class="print-only" style="display:none;margin-bottom:20px">
+    <h1 style="font-size:20px;font-weight:700;margin-bottom:4px">{{ config('app.name') }} — Sales &amp; Profit Report</h1>
+    <div style="font-size:12px;color:#6b7280">Generated {{ now()->format('d M Y, h:i A') }}</div>
 </div>
 
 {{-- Period Label --}}
@@ -68,6 +75,60 @@
             </div>
             @php $margin = $summary['total_revenue'] > 0 ? round(($summary['total_profit']/$summary['total_revenue'])*100,1) : 0; @endphp
             <div style="font-size:12px;color:#9ca3af">Margin: {{ $margin }}%</div>
+        </div>
+    </div>
+</div>
+
+{{-- COD vs Bank Transfer --}}
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px">
+    <div class="card" style="border-top:4px solid #f59e0b">
+        <div class="card-body" style="padding:20px">
+            <h3 style="font-size:14px;font-weight:700;margin-bottom:16px;color:#1f2937">
+                <i class="fas fa-money-bill-wave" style="color:#f59e0b"></i> Cash on Delivery
+            </h3>
+            @if($codReport)
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+                    <div>
+                        <div style="font-size:11px;color:#9ca3af;text-transform:uppercase">Orders</div>
+                        <div style="font-size:20px;font-weight:700;color:#1f2937">{{ $codReport->orders }}</div>
+                    </div>
+                    <div>
+                        <div style="font-size:11px;color:#9ca3af;text-transform:uppercase">Revenue</div>
+                        <div style="font-size:18px;font-weight:700;color:#10b981">Rs. {{ number_format($codReport->revenue,0) }}</div>
+                    </div>
+                    <div>
+                        <div style="font-size:11px;color:#9ca3af;text-transform:uppercase">Profit</div>
+                        <div style="font-size:18px;font-weight:700;color:{{ $codReport->profit>=0?'#6c63ff':'#ef4444' }}">Rs. {{ number_format($codReport->profit,0) }}</div>
+                    </div>
+                </div>
+            @else
+                <div style="text-align:center;padding:20px;color:#9ca3af;font-size:13px">No COD orders in this period</div>
+            @endif
+        </div>
+    </div>
+    <div class="card" style="border-top:4px solid #3b82f6">
+        <div class="card-body" style="padding:20px">
+            <h3 style="font-size:14px;font-weight:700;margin-bottom:16px;color:#1f2937">
+                <i class="fas fa-university" style="color:#3b82f6"></i> Bank Transfer
+            </h3>
+            @if($bankReport)
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
+                    <div>
+                        <div style="font-size:11px;color:#9ca3af;text-transform:uppercase">Orders</div>
+                        <div style="font-size:20px;font-weight:700;color:#1f2937">{{ $bankReport->orders }}</div>
+                    </div>
+                    <div>
+                        <div style="font-size:11px;color:#9ca3af;text-transform:uppercase">Revenue</div>
+                        <div style="font-size:18px;font-weight:700;color:#10b981">Rs. {{ number_format($bankReport->revenue,0) }}</div>
+                    </div>
+                    <div>
+                        <div style="font-size:11px;color:#9ca3af;text-transform:uppercase">Profit</div>
+                        <div style="font-size:18px;font-weight:700;color:{{ $bankReport->profit>=0?'#6c63ff':'#ef4444' }}">Rs. {{ number_format($bankReport->profit,0) }}</div>
+                    </div>
+                </div>
+            @else
+                <div style="text-align:center;padding:20px;color:#9ca3af;font-size:13px">No bank transfer orders in this period</div>
+            @endif
         </div>
     </div>
 </div>
@@ -170,7 +231,7 @@
                     <th>Category</th>
                     <th style="text-align:center">Stock Left</th>
                     <th>Cost Price (Rs.)</th>
-                    <th>Actions</th>
+                    <th class="no-print">Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -182,7 +243,7 @@
                         <span style="font-weight:700;color:{{ $product->stock===0?'#ef4444':'#f59e0b' }}">{{ $product->stock }}</span>
                     </td>
                     <td>{{ $product->cost_price > 0 ? 'Rs. '.number_format($product->cost_price,0) : '—' }}</td>
-                    <td>
+                    <td class="no-print">
                         <a href="{{ route('admin.inventory.create') }}?product_id={{ $product->id }}" class="btn btn-secondary btn-sm">
                             <i class="fas fa-plus"></i> Restock
                         </a>
@@ -198,7 +259,7 @@
 {{-- Recent Orders --}}
 @if($recentOrders->isNotEmpty())
 <div class="card" style="margin-top:20px">
-    <div class="card-body">
+    <div class="card-body" style="padding:20px">
         <h3 style="font-size:14px;font-weight:700;margin-bottom:16px;color:#1f2937">
             <i class="fas fa-receipt" style="color:#6c63ff"></i> Orders in This Period
         </h3>
@@ -211,7 +272,7 @@
                     <th style="text-align:right">Amount (Rs.)</th>
                     <th style="text-align:right">Profit (Rs.)</th>
                     <th>Date</th>
-                    <th></th>
+                    <th class="no-print"></th>
                 </tr>
             </thead>
             <tbody>
@@ -224,7 +285,7 @@
                     <td style="text-align:right;font-weight:600">{{ number_format($order->total_amount,0) }}</td>
                     <td style="text-align:right;color:{{ $order->profit>=0?'#10b981':'#ef4444' }};font-weight:600">{{ number_format($order->profit,0) }}</td>
                     <td style="font-size:12px;color:#9ca3af">{{ $order->created_at->format('d M H:i') }}</td>
-                    <td><a href="{{ route('admin.orders.show', $order) }}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a></td>
+                    <td class="no-print"><a href="{{ route('admin.orders.show', $order) }}" class="btn btn-secondary btn-sm"><i class="fas fa-eye"></i></a></td>
                 </tr>
                 @endforeach
             </tbody>
@@ -235,7 +296,11 @@
 
 <script>
 function toggleCustom(sel) {
-    document.getElementById('customDates').style.display = sel.value === 'custom' ? 'flex' : 'none';
+    const isCustom = sel.value === 'custom';
+    document.getElementById('customDates').style.display = isCustom ? 'flex' : 'none';
+    document.querySelectorAll('#customDates input').forEach(function (input) {
+        input.disabled = !isCustom;
+    });
 }
 </script>
 @endsection

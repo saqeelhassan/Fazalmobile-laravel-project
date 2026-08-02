@@ -73,6 +73,7 @@
                     <th>Unit Cost (Rs.)</th>
                     <th>Reference</th>
                     <th>Notes</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -102,10 +103,23 @@
                     <td>{{ $tx->unit_cost > 0 ? 'Rs. '.number_format($tx->unit_cost,0) : '—' }}</td>
                     <td style="font-size:12px">{{ $tx->reference_number ?? '—' }}</td>
                     <td style="font-size:12px;color:#6b7280">{{ $tx->notes ?? '—' }}</td>
+                    <td>
+                        @if($tx->type === 'sale')
+                            <span style="font-size:11px;color:#9ca3af" title="Tied to an order — cannot be edited or deleted here">Order sale</span>
+                        @else
+                            <div class="action-btns">
+                                <a href="{{ route('admin.inventory.edit', $tx) }}" class="btn btn-secondary btn-sm" title="Edit"><i class="fas fa-pen"></i></a>
+                                <form method="POST" action="{{ route('admin.inventory.destroy', $tx) }}" onsubmit="return confirm('Delete this stock transaction? This will reverse its effect on {{ addslashes($tx->product->name ?? 'the product') }}\'s stock.')">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm" title="Delete"><i class="fas fa-trash"></i></button>
+                                </form>
+                            </div>
+                        @endif
+                    </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="7" style="text-align:center;padding:40px;color:#9ca3af">
+                    <td colspan="8" style="text-align:center;padding:40px;color:#9ca3af">
                         <i class="fas fa-boxes" style="font-size:30px;display:block;margin-bottom:10px"></i>
                         No transactions yet. <a href="{{ route('admin.inventory.create') }}" style="color:#6c63ff">Add stock</a>
                     </td>

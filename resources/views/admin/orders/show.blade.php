@@ -43,11 +43,17 @@
                     <tfoot>
                         @if($order->delivery_charge > 0)
                         <tr style="border-top:2px solid #e5e7eb">
-                            <td colspan="4" style="text-align:right;color:#6b7280;padding:12px 16px">Delivery Charge (COD):</td>
+                            <td colspan="4" style="text-align:right;color:#6b7280;padding:12px 16px">Delivery Charge:</td>
                             <td style="text-align:right;color:#6b7280;padding:12px 16px">Rs. {{ number_format($order->delivery_charge,0) }}</td>
                         </tr>
                         @endif
+                        @if($order->discount_amount > 0)
                         <tr style="{{ $order->delivery_charge > 0 ? '' : 'border-top:2px solid #e5e7eb' }}">
+                            <td colspan="4" style="text-align:right;color:#ef4444;padding:12px 16px">Discount:</td>
+                            <td style="text-align:right;color:#ef4444;padding:12px 16px">- Rs. {{ number_format($order->discount_amount,0) }}</td>
+                        </tr>
+                        @endif
+                        <tr style="{{ ($order->delivery_charge > 0 || $order->discount_amount > 0) ? '' : 'border-top:2px solid #e5e7eb' }}">
                             <td colspan="4" style="text-align:right;font-weight:700;padding:12px 16px">Total Revenue:</td>
                             <td style="text-align:right;font-weight:700;font-size:15px;color:#6c63ff;padding:12px 16px">Rs. {{ number_format($order->total_amount,0) }}</td>
                         </tr>

@@ -31,18 +31,7 @@
                             <a href="{{ url('/buyer-protection') }}">Buyer Protection</a>
                         </div>
                         <div class="element hidden-xs hidden-sm">
-                            <a href="#">Help</a>
-                        </div>
-                        <div class="element element-leaguage">
-                            <a id="label2" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                                <img src="{{ asset('img/icon-l.png') }}" alt="">
-                                <span>English</span>
-                                <span class="ion-ios-arrow-down f-10 e-arrow"></span>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="label2">
-                                <li><a href="#">EN</a></li>
-                                <li><a href="#">UR</a></li>
-                            </ul>
+                            <a href="{{ url('/help') }}">Help</a>
                         </div>
                     </div>
                 </div>

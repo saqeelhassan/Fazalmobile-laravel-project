@@ -17,6 +17,13 @@ class ReportController extends Controller
         $from   = $request->get('from');
         $to     = $request->get('to');
 
+        // Only honor explicit from/to when the "Custom Range" period is
+        // selected — otherwise the hidden (but still-submitted) date inputs
+        // from a previous render would silently override the chosen period.
+        if ($period !== 'custom') {
+            $from = $to = null;
+        }
+
         // Set default date ranges
         if (!$from || !$to) {
             switch ($period) {
@@ -74,8 +81,22 @@ class ReportController extends Controller
         // Low stock products
         $lowStock = Product::where('stock', '<=', 5)->orderBy('stock')->limit(10)->get();
 
+        // Cash on Delivery vs Bank Transfer breakdown
+        $byPaymentMethod = (clone $ordersQuery)
+            ->select('payment_method',
+                DB::raw('COUNT(*) as orders'),
+                DB::raw('SUM(total_amount) as revenue'),
+                DB::raw('SUM(profit) as profit'))
+            ->groupBy('payment_method')
+            ->get()
+            ->keyBy('payment_method');
+
+        $codReport  = $byPaymentMethod->get('cash');
+        $bankReport = $byPaymentMethod->get('bank_transfer');
+
         return view('admin.reports.index', compact(
-            'period', 'from', 'to', 'summary', 'dailyData', 'topProducts', 'recentOrders', 'lowStock'
+            'period', 'from', 'to', 'summary', 'dailyData', 'topProducts', 'recentOrders', 'lowStock',
+            'codReport', 'bankReport'
         ));
     }
 }
