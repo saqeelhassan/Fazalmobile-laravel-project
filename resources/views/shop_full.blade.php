@@ -18,6 +18,7 @@
                 <div class="pd-banner">
                    <a href="#" class="image-bd effect_img2"><img src="{{ asset('img/shop-banner.jpg') }}" alt="" class="img-reponsive"></a>
                 </div>
+                <div id="shop-content">
                 <div class="pd-top">
                     <h1 class="title">
                         @if($search)
@@ -203,6 +204,7 @@
 
                 </div>
                 </div>
+                </div>
 
             </div>
         </div>
@@ -303,4 +305,48 @@
                 </div>
             </div>
         </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    var content = document.getElementById('shop-content');
+    if (!content) return;
+
+    function loadShopContent(url, push) {
+        content.style.transition = 'opacity .15s ease';
+        content.style.opacity = '0.4';
+
+        fetch(url, { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+            .then(function (r) { return r.text(); })
+            .then(function (html) {
+                var doc = new DOMParser().parseFromString(html, 'text/html');
+                var fresh = doc.getElementById('shop-content');
+                if (!fresh) { window.location.href = url; return; }
+
+                content.innerHTML = fresh.innerHTML;
+                content.style.opacity = '1';
+                if (push) history.pushState({ fmShopUrl: url }, '', url);
+
+                var newTitle = doc.querySelector('title');
+                if (newTitle) document.title = newTitle.textContent;
+
+                window.scrollTo({ top: content.getBoundingClientRect().top + window.scrollY - 100, behavior: 'smooth' });
+                document.dispatchEvent(new CustomEvent('shopContentUpdated'));
+            })
+            .catch(function () { window.location.href = url; });
+    }
+
+    // Only the category sidebar switches without a full reload — sort,
+    // per-page and pagination links are left as normal navigation.
+    document.addEventListener('click', function (e) {
+        var link = e.target.closest('#filter-sidebar .cate-list-thumb a');
+        if (!link) return;
+        e.preventDefault();
+        loadShopContent(link.getAttribute('href'), true);
+    });
+
+    window.addEventListener('popstate', function () {
+        loadShopContent(location.href, false);
+    });
+});
+</script>
 @endsection

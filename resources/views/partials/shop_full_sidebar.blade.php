@@ -125,12 +125,14 @@
 </style>
 
 <script>
-    document.addEventListener('DOMContentLoaded', function () {
+    function fmInitPriceSlider() {
         if (typeof jQuery === 'undefined') { return; }
 
         jQuery(function ($) {
             var $slider = $('#price-range-slider');
             if (!$slider.length || typeof $slider.slider !== 'function') { return; }
+            // Already-initialized sliders carry this data key — skip re-init.
+            if ($slider.data('slider')) { return; }
 
             var $min = $('#min_price_input');
             var $max = $('#max_price_input');
@@ -142,5 +144,7 @@
                 $label.text('Price: Rs ' + e.value[0].toLocaleString() + ' — Rs ' + e.value[1].toLocaleString());
             });
         });
-    });
+    }
+    document.addEventListener('DOMContentLoaded', fmInitPriceSlider);
+    document.addEventListener('shopContentUpdated', fmInitPriceSlider);
 </script>
