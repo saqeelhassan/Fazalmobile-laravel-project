@@ -44,7 +44,7 @@
         <div class="container container-240">
             <div class="row flex">
                 <div class="col-lg-2 col-md-2 col-sm-6 col-xs-6 v-center header-logo" style="margin-top:0">
-                    <a href="{{ url('/') }}" style="display:block"><img src="{{ asset('img/logo.png') }}" alt="Fazal Mobiles" class="img-reponsive" style="width:min(300px, 50vw);max-width:none;height:auto;aspect-ratio:1632/274;object-fit:cover;object-position:center;display:block"></a>
+                    <a href="{{ url('/') }}" style="display:block"><img src="{{ asset('img/logo.png') }}" alt="Fazal Mobiles" class="img-reponsive" style="width:100%;max-width:220px;height:auto;aspect-ratio:1632/274;object-fit:cover;object-position:left center;display:block"></a>
                 </div>
                 <div class="col-lg-7 col-md-7 v-center header-search hidden-xs hidden-sm">
                     <form method="get" class="searchform ajax-search" action="{{ url('/search') }}" role="search">
