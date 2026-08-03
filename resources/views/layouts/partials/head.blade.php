@@ -158,6 +158,14 @@
             object-fit: cover !important;
             object-position: center !important;
         }
+
+        /* ── Blog post date badge: a flex sibling of the (often long) post
+           title inside a flex row — without flex-shrink:0 the flex layout
+           squishes its width to make room for the title, turning the
+           circle into an oval. ── */
+        .blog-post-date {
+            flex-shrink: 0;
+        }
     </style>
 
     <!-- Page Loader CSS -->
