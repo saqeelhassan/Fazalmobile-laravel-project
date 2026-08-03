@@ -16,8 +16,6 @@ auth.json
 /public/fonts-manifest.dev.json
 /storage/*.key
 /storage/pail
-/storage/app/public/*
-!/storage/app/public/.gitignore
 /storage/framework/cache/*
 !/storage/framework/cache/.gitignore
 /storage/framework/sessions/*
