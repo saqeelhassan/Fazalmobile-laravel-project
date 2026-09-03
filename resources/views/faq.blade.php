@@ -29,7 +29,7 @@
                             </div>
                             <div class="qa-answer">
                                 <span class="qa-icon">A</span>
-                                <p>Yes. Every product we list is sourced from authorized suppliers and checked before it ships. If an item ever turns out to be inauthentic, you're entitled to a full refund — see our <a href="{{ url('/buyer-protection') }}">Buyer Protection</a> page.</p>
+                                <p>Yes. Every product we list is sourced from authorized suppliers and checked before it ships. If an item ever turns out to be inauthentic, you're entitled to a free exchange — see our <a href="{{ url('/buyer-protection') }}">Buyer Protection</a> page.</p>
                             </div>
                         </div>
 
@@ -74,7 +74,7 @@
                             </div>
                             <div class="qa-answer">
                                 <span class="qa-icon">A</span>
-                                <p>You can request a return or exchange within 7 days of delivery, as long as the item is unused and in its original packaging. Full details are on our <a href="{{ url('/returns-exchange') }}">Returns / Exchange</a> page.</p>
+                                <p>We only offer exchange within 24 hours after you receive your order, as long as the item is unused and in its original packaging. Full details are on our <a href="{{ url('/returns-exchange') }}">Returns / Exchange</a> page.</p>
                             </div>
                         </div>
 
@@ -96,7 +96,7 @@
                             </div>
                             <div class="qa-answer">
                                 <span class="qa-icon">A</span>
-                                <p>Contact us within 48 hours of delivery with photos of the item and packaging, and we'll arrange a free replacement or refund — no need to worry about return shipping costs in that case.</p>
+                                <p>Contact us within 24 hours of delivery with photos of the item and packaging, and we'll arrange a free exchange — no need to worry about return shipping costs in that case.</p>
                             </div>
                         </div>
 

@@ -61,8 +61,8 @@
                             <p class="about-desc spc">Questions about an order you've already placed — payment, delivery time, or changing an address? <a href="{{ url('/track') }}">Track your order</a> or call us with your order number and we'll sort it out.</p>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                            <h3 class="about-title spc">Returns &amp; Refunds</h3>
-                            <p class="about-desc spc">Need to send something back or swap it for another item? See our <a href="{{ url('/returns-exchange') }}">Returns / Exchange policy</a> for the full process and timelines.</p>
+                            <h3 class="about-title spc">Exchanges</h3>
+                            <p class="about-desc spc">Need to swap your item for another one? See our <a href="{{ url('/returns-exchange') }}">Returns / Exchange policy</a> for the full process and timelines.</p>
                         </div>
                         <div class="col-md-6 col-sm-6 col-xs-12">
                             <h3 class="about-title spc">Product Questions</h3>

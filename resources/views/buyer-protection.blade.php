@@ -63,8 +63,8 @@
                             <div style="display:flex;gap:18px;align-items:flex-start;margin-bottom:35px">
                                 <img src="{{ asset('img/feature/telephone.png') }}" alt="" style="width:48px;flex-shrink:0">
                                 <div>
-                                    <h3 class="about-title" style="margin-bottom:8px">Easy Returns &amp; Refunds</h3>
-                                    <p class="about-desc">Not satisfied with your purchase? Items in original condition can be returned within our standard return window for a full refund or exchange.</p>
+                                    <h3 class="about-title" style="margin-bottom:8px">Easy Exchange</h3>
+                                    <p class="about-desc">Not satisfied with your purchase? Items in original condition can be exchanged within 24 hours after the customer receives the product.</p>
                                 </div>
                             </div>
                         </div>
