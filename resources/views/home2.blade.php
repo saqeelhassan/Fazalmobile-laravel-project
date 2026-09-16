@@ -737,4 +737,27 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 </script>
+
+<!-- Announcement Popup -->
+<div id="announcement-popup-overlay" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;padding:20px;">
+    <div style="position:relative;max-width:480px;width:100%;">
+        <button id="announcement-popup-close" aria-label="Close" style="position:absolute;top:-14px;right:-14px;width:36px;height:36px;border-radius:50%;background:#fff;color:#111;border:0;font-size:20px;line-height:1;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.35);">&times;</button>
+        <img src="{{ asset('img/popup.jpeg') }}" alt="Fazal Mobile is coming to IT Tower Lahore" style="width:100%;height:auto;border-radius:10px;display:block;">
+    </div>
+</div>
+<script>
+    (function () {
+        var overlay = document.getElementById('announcement-popup-overlay');
+        var closeBtn = document.getElementById('announcement-popup-close');
+        if (!overlay || !closeBtn) return;
+        overlay.style.display = 'flex';
+        function closePopup() {
+            overlay.style.display = 'none';
+        }
+        closeBtn.addEventListener('click', closePopup);
+        overlay.addEventListener('click', function (e) {
+            if (e.target === overlay) closePopup();
+        });
+    })();
+</script>
 @endsection
