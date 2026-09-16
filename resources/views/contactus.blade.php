@@ -38,7 +38,7 @@
                             <h3 class="contact-title v2">Fazal Mobiles Store</h3>
                             <ul class="footer-block-content">
                                 <li class="address">
-                                    <span>{{ SITE_ADDRESS }}</span>
+                                    <span>Shop 60 LG Floor IT Tower Gulberg 3 Lahore, Pakistan</span>
                                 </li>
                                 <li class="phone">
                                     <a href="tel:{{ SITE_PHONE_TEL }}">{{ SITE_PHONE }}</a>
