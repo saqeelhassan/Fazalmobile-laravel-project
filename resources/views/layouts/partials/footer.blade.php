@@ -45,7 +45,7 @@
                                 </div>
                                 <ul class="footer-block-content">
                                     <li class="address">
-                                        <span>{{ SITE_ADDRESS }}</span>
+                                        <span>Shop 60 LG Floor IT Tower Gulberg 3 Lahore, Pakistan</span>
                                     </li>
                                     <li class="phone">
                                         <a href="tel:{{ SITE_PHONE_TEL }}">{{ SITE_PHONE }}</a>
