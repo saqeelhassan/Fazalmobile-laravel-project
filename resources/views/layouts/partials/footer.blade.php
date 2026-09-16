@@ -134,7 +134,7 @@
                         <div class="col-xs-6 f-copyright">
                             <span>&copy; {{ date('Y') }} {{ SITE_NAME }}. All rights reserved.</span>
                             <a href="{{ url('/privacy-policy') }}" class="f-bottom-link" style="margin-left:15px">Privacy Policy</a>
-                            <span style="margin-left:15px;color:#bbbbbb">Crafted by <a href="https://deweboo.com/" target="_blank" rel="noopener" class="f-bottom-link">De-Weboo</a></span>
+                            <span style="margin-left:15px;color:#bbbbbb">Crafted by <a href="https://deweboo.com/" target="_blank" rel="noopener" class="f-bottom-link">De-Weboo Dev</a></span>
                         </div>
                         <div class="col-xs-12 col-sm-6 f-payment" style="display:flex;align-items:center;justify-content:flex-end;flex-wrap:wrap;gap:8px;margin-top:10px;">
                             <span style="background:#ffffff;border-radius:6px;padding:3px 8px;display:inline-flex;align-items:center;justify-content:center;height:34px;box-shadow:0 1px 3px rgba(0,0,0,0.25);">
