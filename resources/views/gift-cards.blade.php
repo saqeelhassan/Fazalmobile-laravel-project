@@ -58,7 +58,7 @@
                     <div class="entry-inside v4 text-center" style="margin-top:10px">
                         <p class="about-desc">
                             Gift cards are currently available in-store and over the phone.
-                            Call us at <strong>{{ SITE_PHONE }}</strong> or
+                            Call us at <strong><a href="tel:{{ SITE_PHONE_TEL }}">{{ SITE_PHONE }}</a></strong> or
                             <a href="{{ url('/contact') }}">contact our team</a> to purchase one today.
                         </p>
                     </div>

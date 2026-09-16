@@ -59,7 +59,7 @@
                 <div class="container container-240">
                     <div class="entry-inside v4 text-center" style="margin-top:10px">
                         <p class="about-desc">
-                            Need help with an exchange? Call us at <strong>{{ SITE_PHONE }}</strong> or
+                            Need help with an exchange? Call us at <strong><a href="tel:{{ SITE_PHONE_TEL }}">{{ SITE_PHONE }}</a></strong> or
                             <a href="{{ url('/contact') }}">contact our support team</a>.
                         </p>
                     </div>

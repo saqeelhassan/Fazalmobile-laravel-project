@@ -48,7 +48,7 @@
                                         <span>{{ SITE_ADDRESS }}</span>
                                     </li>
                                     <li class="phone">
-                                        <span>{{ SITE_PHONE }}</span>
+                                        <a href="tel:{{ SITE_PHONE_TEL }}">{{ SITE_PHONE }}</a>
                                     </li>
                                     <li class="email">
                                         <span>{{ SITE_EMAIL }}</span>
@@ -96,7 +96,7 @@
                                 <div class="footer-block-phone">
                                     <h3 class="footer-block-title">Hot Line</h3>
                                     <p class="phone-desc">Call Us Toll Free</p>
-                                    <p class="phone-light">{{ SITE_PHONE }}</p>
+                                    <p class="phone-light"><a href="tel:{{ SITE_PHONE_TEL }}">{{ SITE_PHONE }}</a></p>
                                 </div>
                                 <div class="footer-block-newsletter">
                                     <h3 class="footer-block-title">Subscription</h3>
