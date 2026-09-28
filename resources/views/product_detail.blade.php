@@ -24,16 +24,13 @@
     .pdp-wrap { padding: 30px 0 10px; }
     .pdp-main-img {
         width: 100%;
-        height: 420px;
-        background: #f8f8f8;
-        border: 1px solid #eee;
+        aspect-ratio: 1 / 1;
         border-radius: 8px;
-        overflow: hidden;
         display: flex;
         align-items: center;
         justify-content: center;
     }
-    .pdp-main-img img { width: 100%; height: 100%; object-fit: contain; }
+    .pdp-main-img img { width: 100%; height: 100%; object-fit: cover; border: 5px solid #fff; box-sizing: border-box; }
     .pdp-thumbs { display: flex; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
     .pdp-thumbs a {
         display: block;
@@ -91,7 +88,6 @@
     .pdp-related { margin: 30px 0 10px; }
     .pdp-related h2 { font-size: 20px; font-weight: 700; color: #1c1c28; margin-bottom: 20px; }
     @media (max-width: 767px) {
-        .pdp-main-img { height: 300px; }
         .pdp-name { font-size: 22px; }
     }
 </style>

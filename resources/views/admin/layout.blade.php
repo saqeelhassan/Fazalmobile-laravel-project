@@ -112,7 +112,7 @@
         .pagination .active span{background:#6c63ff;color:#fff;border-color:#6c63ff}
 
         /* Image preview */
-        .img-preview{width:80px;height:80px;object-fit:cover;border-radius:8px;margin-top:8px;border:2px solid #e5e7eb}
+        .img-preview{width:80px;height:80px;object-fit:contain;background:#f8f8f8;border-radius:8px;margin-top:8px;border:2px solid #e5e7eb}
         .upload-area{border:2px dashed #d1d5db;border-radius:8px;padding:20px;text-align:center;cursor:pointer;color:#9ca3af;font-size:13px;transition:border .2s}
         .upload-area:hover{border-color:#6c63ff;color:#6c63ff}
 

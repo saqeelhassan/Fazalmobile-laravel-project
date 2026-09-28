@@ -79,7 +79,7 @@
                 @if($product->image)
                     <div style="margin-bottom:14px">
                         <label style="font-size:12px;color:#9ca3af;display:block;margin-bottom:6px">Current Image</label>
-                        <img src="{{ Storage::url($product->image) }}" style="width:100px;height:100px;object-fit:cover;border-radius:8px;border:2px solid #e5e7eb">
+                        <img src="{{ Storage::url($product->image) }}" style="width:100px;height:100px;object-fit:contain;background:#f8f8f8;border-radius:8px;border:2px solid #e5e7eb">
                     </div>
                 @endif
                 <div class="form-group" style="margin-bottom:16px">
@@ -92,7 +92,7 @@
                         <label style="font-size:12px;color:#9ca3af;display:block;margin-bottom:6px">Current Gallery</label>
                         <div style="display:flex;gap:8px;flex-wrap:wrap">
                             @foreach($product->gallery as $img)
-                                <img src="{{ Storage::url($img) }}" style="width:60px;height:60px;object-fit:cover;border-radius:6px;border:1px solid #e5e7eb">
+                                <img src="{{ Storage::url($img) }}" style="width:60px;height:60px;object-fit:contain;background:#f8f8f8;border-radius:6px;border:1px solid #e5e7eb">
                             @endforeach
                         </div>
                     </div>

@@ -537,7 +537,7 @@
                                     <h3 class="product-title"><a href="{{ url('/product/' . $product->slug) }}">{{ $product->name }}</a></h3>
                                     @if($product->short_description)
                                         <div class="element-list element-list-left">
-                                            <p style="font-size:12px;color:#888;margin-bottom:6px">{{ Str::limit($product->short_description, 60) }}</p>
+                                            <p style="font-size:12px;color:#888;margin-bottom:6px">{{ Str::limit(trim(strip_tags($product->short_description)), 60) }}</p>
                                         </div>
                                     @endif
                                     <div class="product-bottom">
@@ -739,8 +739,8 @@ document.addEventListener('DOMContentLoaded', function () {
 </script>
 
 <!-- Announcement Popup -->
-<div id="announcement-popup-overlay" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.7);align-items:center;justify-content:center;padding:20px;">
-    <div style="position:relative;max-width:480px;width:100%;">
+<div id="announcement-popup-overlay" style="display:none;position:fixed;inset:0;z-index:99999;background:transparent;align-items:center;justify-content:center;padding:20px;pointer-events:none;">
+    <div style="position:relative;max-width:480px;width:100%;pointer-events:auto;">
         <button id="announcement-popup-close" aria-label="Close" style="position:absolute;top:-14px;right:-14px;width:36px;height:36px;border-radius:50%;background:#fff;color:#111;border:0;font-size:20px;line-height:1;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,0.35);">&times;</button>
         <img src="{{ asset('img/popup.jpeg') }}" alt="Fazal Mobile is coming to IT Tower Lahore" style="width:100%;height:auto;border-radius:10px;display:block;">
     </div>

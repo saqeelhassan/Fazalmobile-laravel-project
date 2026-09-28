@@ -13,6 +13,23 @@
        match them so both column headers read as the same size. */
     .shopping-cart .page-title.v2 { width: 155px; }
 
+    /* Cart line-item thumbnail: square, full image visible (no cropping) */
+    .item_cart .product-name .product-img {
+        width: 60px;
+        height: 60px;
+        aspect-ratio: 1 / 1;
+        overflow: hidden;
+        background: #f8f8f8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .item_cart .product-name .product-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
     /* Equal-height Cart / Cart totals columns */
     .cart-page-row { display: flex; flex-wrap: wrap; }
     .cart-page-row > [class*="col-"] { display: flex; }

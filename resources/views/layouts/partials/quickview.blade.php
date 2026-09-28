@@ -10,11 +10,15 @@
     #productQuickView .qv-body { display: flex; }
     #productQuickView .qv-img {
         width: 46%; flex-shrink: 0;
-        background: #f8f8f8;
         display: flex; align-items: center; justify-content: center;
-        min-height: 380px;
+        aspect-ratio: 1 / 1;
     }
-    #productQuickView .qv-img img { width: 100%; height: 380px; object-fit: contain; }
+    #productQuickView .qv-img img {
+        width: 100%; height: 100%;
+        object-fit: cover; object-position: center;
+        border: 5px solid #fff;
+        box-sizing: border-box;
+    }
     #productQuickView .qv-info { padding: 32px 30px; flex: 1; }
     #productQuickView .qv-cate { color: #f96f5d; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
     #productQuickView .qv-name { font-size: 21px; font-weight: 700; color: #1c1c28; line-height: 1.35; margin: 0 0 12px; }
@@ -62,8 +66,7 @@
     #productQuickView .qv-btn-link:hover { text-decoration: underline !important; }
     @media (max-width: 767px) {
         #productQuickView .qv-body { flex-direction: column; }
-        #productQuickView .qv-img { width: 100%; min-height: 240px; }
-        #productQuickView .qv-img img { height: 240px; }
+        #productQuickView .qv-img { width: 100%; }
     }
 </style>
 <div class="modal fade" id="productQuickView" tabindex="-1" role="dialog" aria-hidden="true">

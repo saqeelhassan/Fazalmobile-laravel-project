@@ -56,24 +56,29 @@
             border-radius: 0;
         }
 
-        /* ── Fixed image box — all same size ── */
+        /* ── Fixed image box — all same size, always 1:1 and showing the
+           complete image (no cropping). aspect-ratio + !important override
+           the assorted fixed pixel heights (200/220px etc.) individual
+           templates set inline. ── */
         .product-item .product-img,
         .product-inner .product-img {
             width: 100%;
-            height: 220px;
+            height: auto !important;
+            aspect-ratio: 1 / 1 !important;
             overflow: hidden;
-            background: #f8f8f8;
             position: relative;
             flex-shrink: 0;
         }
         .product-item .product-img img,
         .product-inner .product-img img {
             width: 100% !important;
-            height: 220px !important;
+            height: 100% !important;
             object-fit: cover !important;
             object-position: center !important;
             transition: transform 0.35s ease;
             display: block;
+            border: 5px solid #fff;
+            box-sizing: border-box;
         }
         .product-item .product-img:hover img,
         .product-inner .product-img:hover img {
@@ -145,8 +150,9 @@
 
         /* ── e-category small thumbnails ── */
         .cate-item .product-img {
-            width: 80px;
-            height: 80px;
+            width: 80px !important;
+            height: 80px !important;
+            aspect-ratio: 1 / 1;
             flex-shrink: 0;
             overflow: hidden;
             background: #f5f5f5;
@@ -167,6 +173,7 @@
             flex-shrink: 0;
         }
     </style>
+
 
     <!-- Page Loader CSS -->
     <style>
