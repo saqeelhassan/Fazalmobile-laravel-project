@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ProductsExport;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Product;
@@ -10,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -39,7 +41,7 @@ class ProductController extends Controller
         ];
     }
 
-    public function index(Request $request)
+    private function filteredQuery(Request $request)
     {
         $query = Product::query();
 
@@ -59,10 +61,22 @@ class ProductController extends Controller
             $query->where('status', $status);
         }
 
-        $products     = $query->latest()->paginate(15)->withQueryString();
+        return $query;
+    }
+
+    public function index(Request $request)
+    {
+        $products     = $this->filteredQuery($request)->latest()->paginate(15)->withQueryString();
         $trashedCount = Product::onlyTrashed()->count();
 
         return view('admin.products.index', compact('products', 'trashedCount'));
+    }
+
+    public function export(Request $request)
+    {
+        $query = $this->filteredQuery($request)->latest();
+
+        return Excel::download(new ProductsExport($query), 'products-' . now()->format('Y-m-d_His') . '.xlsx');
     }
 
     public function create()

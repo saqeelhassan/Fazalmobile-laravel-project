@@ -11,6 +11,9 @@
             <i class="fas fa-trash-restore"></i> Trash ({{ $trashedCount }})
         </a>
         @endif
+        <a href="{{ route('admin.products.export', request()->query()) }}" class="btn btn-secondary">
+            <i class="fas fa-file-excel"></i> Export to Excel
+        </a>
         <a href="{{ route('admin.products.create') }}" class="btn btn-primary">
             <i class="fas fa-plus"></i> Add Product
         </a>

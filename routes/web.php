@@ -35,6 +35,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('admin.auth')->group(function () {
         Route::get('/',         [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('products', ProductController::class)->except(['show']);
+        Route::get('products-export',             [ProductController::class, 'export'])->name('products.export');
         Route::get('products-trash',              [ProductController::class, 'trashed'])->name('products.trashed');
         Route::post('products/{id}/restore',      [ProductController::class, 'restore'])->name('products.restore');
         Route::delete('products/{id}/force-delete',[ProductController::class, 'forceDelete'])->name('products.forceDelete');
