@@ -41,6 +41,25 @@ class ProductController extends Controller
         ];
     }
 
+    /**
+     * Numeric fields default to 0 rather than reaching the database as
+     * null/blank, since price/sale_price/cost_price/stock have no
+     * meaningful "empty" state on the products table.
+     */
+    private function zeroFillNumerics(array $validated): array
+    {
+        // sale_price is intentionally excluded: null means "not on sale",
+        // and the storefront's @if($product->sale_price) checks rely on
+        // that. A stored 0 renders as "0.00" (a decimal cast), which is a
+        // non-empty PHP string and therefore truthy - it would make the
+        // product look on sale for Rs. 0 instead of not on sale.
+        foreach (['price', 'cost_price', 'stock'] as $field) {
+            $validated[$field] = $validated[$field] ?? 0;
+        }
+
+        return $validated;
+    }
+
     private function filteredQuery(Request $request)
     {
         $query = Product::query();
@@ -89,9 +108,9 @@ class ProductController extends Controller
     {
         $validated = $request->validate($this->rules());
 
+        $validated = $this->zeroFillNumerics($validated);
         $validated['is_featured'] = $request->boolean('is_featured');
         $validated['is_on_sale']  = $request->boolean('is_on_sale');
-        $validated['cost_price']  = $validated['cost_price'] ?? 0;
         $validated['created_by']  = Auth::guard('admin')->id();
         $validated['slug']        = Str::slug($validated['name']);
 
@@ -135,9 +154,9 @@ class ProductController extends Controller
     {
         $validated = $request->validate($this->rules($product->id, $product->category));
 
+        $validated = $this->zeroFillNumerics($validated);
         $validated['is_featured'] = $request->boolean('is_featured');
         $validated['is_on_sale']  = $request->boolean('is_on_sale');
-        $validated['cost_price']  = $validated['cost_price'] ?? 0;
 
         // Handle main image
         if ($request->hasFile('image')) {
