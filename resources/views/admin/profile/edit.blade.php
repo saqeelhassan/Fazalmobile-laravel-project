@@ -3,6 +3,13 @@
 @section('page-title', 'My Profile')
 
 @section('content')
+@if(Auth::guard('admin')->user()->must_change_password)
+    <div class="alert alert-warning" style="max-width:520px">
+        <i class="fas fa-triangle-exclamation"></i>
+        You're signed in with the default password. Please set a new password below before continuing to use the admin panel.
+    </div>
+@endif
+
 <div class="form-card" style="max-width:520px;margin-bottom:24px">
     <h3 style="font-size:14px;font-weight:700;margin-bottom:18px;color:#1f2937"><i class="fas fa-user" style="color:#6c63ff"></i> Account</h3>
     <div class="form-grid">
