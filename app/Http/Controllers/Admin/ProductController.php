@@ -172,6 +172,22 @@ class ProductController extends Controller
             ->with('success', 'Product deleted successfully.');
     }
 
+    public function bulkDestroy(Request $request)
+    {
+        $ids = $request->input('ids', []);
+
+        $validated = validator(['ids' => $ids], [
+            'ids'   => ['required', 'array', 'min:1'],
+            'ids.*' => ['integer', 'exists:products,id'],
+        ])->validate();
+
+        $count = Product::whereIn('id', $validated['ids'])->count();
+        Product::whereIn('id', $validated['ids'])->delete();
+
+        return redirect()->route('admin.products.index')
+            ->with('success', $count . ' product' . ($count === 1 ? '' : 's') . ' moved to Trash.');
+    }
+
     public function trashed()
     {
         $products = Product::onlyTrashed()->latest()->paginate(20);

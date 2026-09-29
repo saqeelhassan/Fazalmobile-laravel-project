@@ -40,11 +40,23 @@
     @endif
 </form>
 
+{{-- Standalone form used only for bulk delete; populated by JS on submit --}}
+<form id="bulkDeleteForm" method="POST" action="{{ route('admin.products.bulkDestroy') }}" style="display:none">
+    @csrf @method('DELETE')
+</form>
+
+<div id="bulkActionsBar" style="display:none;align-items:center;gap:12px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:10px 16px;margin-bottom:14px">
+    <span style="font-size:13px;color:#991b1b;font-weight:600"><span id="bulkSelectedCount">0</span> selected</span>
+    <button type="button" class="btn btn-danger btn-sm" onclick="submitBulkDelete()"><i class="fas fa-trash"></i> Delete Selected</button>
+    <button type="button" class="btn btn-secondary btn-sm" onclick="bulkClearSelection()">Clear</button>
+</div>
+
 <div class="card">
     <div class="card-body">
         <table>
             <thead>
                 <tr>
+                    <th style="width:36px"><input type="checkbox" id="selectAllProducts"></th>
                     <th>#</th>
                     <th>Product</th>
                     <th>Category</th>
@@ -58,6 +70,7 @@
             <tbody>
                 @forelse($products as $product)
                 <tr>
+                    <td><input type="checkbox" value="{{ $product->id }}" class="product-row-check"></td>
                     <td style="color:#9ca3af">{{ $product->id }}</td>
                     <td>
                         <div style="display:flex;align-items:center;gap:10px">
@@ -107,7 +120,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="8" style="text-align:center;padding:40px;color:#9ca3af">
+                    <td colspan="9" style="text-align:center;padding:40px;color:#9ca3af">
                         <i class="fas fa-box-open" style="font-size:30px;display:block;margin-bottom:10px"></i>
                         No products found.
                         <a href="{{ route('admin.products.create') }}" style="color:#6c63ff;font-weight:600">Add your first product</a>
@@ -160,4 +173,62 @@
     </div>
 </div>
 @endif
+
+@push('scripts')
+<script>
+(function () {
+    var selectAll   = document.getElementById('selectAllProducts');
+    var rowChecks    = function () { return document.querySelectorAll('.product-row-check'); };
+    var actionsBar   = document.getElementById('bulkActionsBar');
+    var countLabel   = document.getElementById('bulkSelectedCount');
+
+    function refreshBar() {
+        var checked = document.querySelectorAll('.product-row-check:checked');
+        countLabel.textContent = checked.length;
+        actionsBar.style.display = checked.length > 0 ? 'flex' : 'none';
+        if (selectAll) {
+            selectAll.checked   = checked.length > 0 && checked.length === rowChecks().length;
+            selectAll.indeterminate = checked.length > 0 && checked.length < rowChecks().length;
+        }
+    }
+
+    if (selectAll) {
+        selectAll.addEventListener('change', function () {
+            rowChecks().forEach(function (cb) { cb.checked = selectAll.checked; });
+            refreshBar();
+        });
+    }
+
+    document.addEventListener('change', function (e) {
+        if (e.target.classList && e.target.classList.contains('product-row-check')) {
+            refreshBar();
+        }
+    });
+
+    window.bulkClearSelection = function () {
+        rowChecks().forEach(function (cb) { cb.checked = false; });
+        refreshBar();
+    };
+
+    window.submitBulkDelete = function () {
+        var checked = document.querySelectorAll('.product-row-check:checked');
+        if (checked.length === 0) return;
+        if (!confirm('Move ' + checked.length + ' selected product(s) to Trash?')) return;
+
+        var form = document.getElementById('bulkDeleteForm');
+        form.querySelectorAll('input[name="ids[]"]').forEach(function (el) { el.remove(); });
+        checked.forEach(function (cb) {
+            var input = document.createElement('input');
+            input.type  = 'hidden';
+            input.name  = 'ids[]';
+            input.value = cb.value;
+            form.appendChild(input);
+        });
+        form.submit();
+    };
+
+    refreshBar();
+})();
+</script>
+@endpush
 @endsection
