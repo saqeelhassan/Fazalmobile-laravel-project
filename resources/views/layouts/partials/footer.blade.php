@@ -48,10 +48,10 @@
                                         <span>Shop 60 LG Floor IT Tower Gulberg 3 Lahore, Pakistan</span>
                                     </li>
                                     <li class="phone">
-                                        <a href="tel:{{ SITE_PHONE_TEL }}">{{ SITE_PHONE }}</a>
+                                        <a href="tel:{{ preg_replace('/[^0-9+]/', '', config('site.phone')) }}">{{ config('site.phone') }}</a>
                                     </li>
                                     <li class="email">
-                                        <span>{{ SITE_EMAIL }}</span>
+                                        <span>{{ config('site.email') }}</span>
                                     </li>
                                     <li class="time">
                                         <span>Mon–Sat 9:00am – 5:00pm &nbsp;&nbsp; Sun: Closed</span>
@@ -96,7 +96,7 @@
                                 <div class="footer-block-phone">
                                     <h3 class="footer-block-title">Hot Line</h3>
                                     <p class="phone-desc">Call Us Toll Free</p>
-                                    <p class="phone-light"><a href="tel:{{ SITE_PHONE_TEL }}">{{ SITE_PHONE }}</a></p>
+                                    <p class="phone-light"><a href="tel:{{ preg_replace('/[^0-9+]/', '', config('site.phone')) }}">{{ config('site.phone') }}</a></p>
                                 </div>
                                 <div class="footer-block-newsletter">
                                     <h3 class="footer-block-title">Subscription</h3>
@@ -132,7 +132,7 @@
                 <div class="container container-240">
                     <div class="row flex lr">
                         <div class="col-xs-6 f-copyright">
-                            <span>&copy; {{ date('Y') }} {{ SITE_NAME }}. All rights reserved.</span>
+                            <span>&copy; {{ date('Y') }} {{ config('site.name') }}. All rights reserved.</span>
                             <a href="{{ url('/privacy-policy') }}" class="f-bottom-link" style="margin-left:15px">Privacy Policy</a>
                             <span style="margin-left:15px;color:#bbbbbb">Crafted by <a href="https://deweboo.com/" target="_blank" rel="noopener" class="f-bottom-link">De-Weboo Dev</a></span>
                         </div>

@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\AdminUser;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class AdminUserSeeder extends Seeder
 {
@@ -12,11 +13,19 @@ class AdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\AdminUser::updateOrCreate(
-            ['email' => 'admin@fazalmobile.com'],
+        $password = config('admin.seed.password');
+
+        if (blank($password)) {
+            $this->command?->warn('ADMIN_PASSWORD is not set; skipping admin user creation.');
+
+            return;
+        }
+
+        AdminUser::updateOrCreate(
+            ['email' => config('admin.seed.email')],
             [
-                'name'      => 'Admin',
-                'password'  => \Illuminate\Support\Facades\Hash::make('hDeTSSMXsH22%'),
+                'name'      => config('admin.seed.name'),
+                'password'  => Hash::make($password),
                 'is_active' => true,
             ]
         );

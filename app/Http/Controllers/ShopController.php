@@ -7,6 +7,81 @@ use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
+    public function shop(Request $request)
+    {
+        return $this->index($request, 'shop_full');
+    }
+
+    public function gridV1(Request $request)
+    {
+        return $this->index($request, 'shopgrid_v1');
+    }
+
+    public function gridV2(Request $request)
+    {
+        return $this->index($request, 'shopgrid_v2');
+    }
+
+    public function list(Request $request)
+    {
+        return $this->index($request, 'shoplist');
+    }
+
+    public function leftSidebar(Request $request)
+    {
+        return $this->index($request, 'shopleft_sidebar');
+    }
+
+    public function rightSidebar(Request $request)
+    {
+        return $this->index($request, 'shopright_sidebar');
+    }
+
+    public function flashDeals(Request $request)
+    {
+        return $this->index($request->merge(['collection' => 'sale']), 'shop_full');
+    }
+
+    public function techDiscovery(Request $request)
+    {
+        return $this->index($request->merge(['collection' => 'new']), 'shop_full');
+    }
+
+    public function trendingStyles(Request $request)
+    {
+        return $this->index($request->merge(['collection' => 'featured']), 'shop_full');
+    }
+
+    public function categoryFullwidth(Request $request)
+    {
+        return $this->index($request, 'cat_fullwidth');
+    }
+
+    public function categoryLeftSidebar(Request $request)
+    {
+        return $this->index($request, 'cat_left_sidebar');
+    }
+
+    public function categoryRightSidebar(Request $request)
+    {
+        return $this->index($request, 'cat_right_sidebar');
+    }
+
+    public function showProduct(string $slug)
+    {
+        $product = Product::where('status', 'active')
+            ->where(fn ($query) => $query->where('slug', $slug)->orWhere('id', $slug))
+            ->firstOrFail();
+
+        $related = Product::where('status', 'active')
+            ->where('category', $product->category)
+            ->where('id', '!=', $product->id)
+            ->take(4)
+            ->get();
+
+        return view('product_detail', compact('product', 'related'));
+    }
+
     public function index(Request $request, string $view = 'shop_full')
     {
         $query = Product::visible();

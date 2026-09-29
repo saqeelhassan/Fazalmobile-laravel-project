@@ -56,7 +56,10 @@ class Product extends Model
 
     public static function categories(): array
     {
-        return ['Smart Watches', 'Games', 'Airbuds', 'Cables', 'Projector', 'Charger', 'Cooling Fan'];
+        return Category::active()
+            ->orderBy('id')
+            ->pluck('name')
+            ->all();
     }
 
     public function scopeVisible($query)

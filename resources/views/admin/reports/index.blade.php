@@ -36,10 +36,10 @@
 <div class="print-only" style="display:none;margin-bottom:20px;padding-bottom:16px;border-bottom:2px solid #1f2937">
     <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:20px">
         <div>
-            <h1 style="font-size:21px;font-weight:800;color:#1f2937;margin-bottom:6px">{{ SITE_NAME ?? config('app.name') }}</h1>
+            <h1 style="font-size:21px;font-weight:800;color:#1f2937;margin-bottom:6px">{{ config('site.name', config('app.name')) }}</h1>
             <div style="font-size:11px;color:#6b7280;line-height:1.6">
-                {{ SITE_ADDRESS }}<br>
-                {{ SITE_PHONE }} &nbsp;&bull;&nbsp; {{ SITE_EMAIL }}
+                {{ config('site.address') }}<br>
+                {{ config('site.phone') }} &nbsp;&bull;&nbsp; {{ config('site.email') }}
             </div>
         </div>
         <div style="text-align:right;flex-shrink:0">

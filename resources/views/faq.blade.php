@@ -62,7 +62,7 @@
                             </div>
                             <div class="qa-answer">
                                 <span class="qa-icon">A</span>
-                                <p>Yes, as long as the order hasn't been shipped yet. Call us at <a href="tel:{{ SITE_PHONE_TEL }}">{{ SITE_PHONE }}</a> as soon as possible with your order number and we'll update or cancel it for you.</p>
+                                <p>Yes, as long as the order hasn't been shipped yet. Call us at <a href="tel:{{ preg_replace('/[^0-9+]/', '', config('site.phone')) }}">{{ config('site.phone') }}</a> as soon as possible with your order number and we'll update or cancel it for you.</p>
                             </div>
                         </div>
                     </div>
@@ -107,7 +107,7 @@
                             </div>
                             <div class="qa-answer">
                                 <span class="qa-icon">A</span>
-                                <p>Call or message us at <a href="tel:{{ SITE_PHONE_TEL }}">{{ SITE_PHONE }}</a>, email {{ SITE_EMAIL }}, or visit our <a href="{{ url('/customer-service') }}">Customer Service</a> page for more ways to reach our team, Mon–Sat 9:00am–5:00pm.</p>
+                                <p>Call or message us at <a href="tel:{{ preg_replace('/[^0-9+]/', '', config('site.phone')) }}">{{ config('site.phone') }}</a>, email {{ config('site.email') }}, or visit our <a href="{{ url('/customer-service') }}">Customer Service</a> page for more ways to reach our team, Mon–Sat 9:00am–5:00pm.</p>
                             </div>
                         </div>
                     </div>

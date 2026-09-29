@@ -145,6 +145,11 @@
         .slide-boya-img { margin-right: 15px; }
         .slide-boya-img::before, .slide-boya-img::after { display: none; }
     }
+    @media (min-width: 768px) and (max-width: 1024px) {
+        .slide-fullw .slick-arrow {
+            display: none !important;
+        }
+    }
     /* ── Sale ribbon badge: theme default hangs it partially outside the
        image box (top:-17px; right:-15px), but `.product-img` clips
        overflow (needed for the hover-zoom effect) — pull it fully inside
@@ -246,7 +251,7 @@
                         <div class="slide-boya-inner">
                             <div class="slide-boya-text">
                                 <p class="cate">WELCOME TO FAZAL MOBILES</p>
-                                <h3 class="v4">{{ SITE_TAGLINE }}</h3>
+                                <h3 class="v4">{{ config('site.tagline') }}</h3>
                                 <p class="slide-boya-desc">Browse smart watches, airbuds, gaming gear and accessories. New products are added regularly — check back soon.</p>
                                 <a href="{{ url('/shop') }}" class="slide-btn e-pink-gradient" tabindex="0">Shop now<i class="ion-ios-arrow-forward"></i></a>
                             </div>

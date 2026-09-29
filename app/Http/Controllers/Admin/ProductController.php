@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class ProductController extends Controller
 {
@@ -28,7 +29,7 @@ class ProductController extends Controller
             'cost_price'        => ['nullable', 'numeric', 'min:0', 'max:99999999'],
             'sku'               => ['nullable', 'string', 'max:100', "unique:products,sku,{$id}"],
             'stock'             => ['required', 'integer', 'min:0'],
-            'category'          => ['required', 'string', 'in:' . implode(',', $categories)],
+            'category'          => ['required', 'string', Rule::in($categories)],
             'brand'             => ['nullable', 'string', 'max:100'],
             'status'            => ['required', 'in:active,inactive,out_of_stock'],
             'is_featured'       => ['boolean'],

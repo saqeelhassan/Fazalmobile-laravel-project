@@ -1,12 +1,5 @@
 <?php
-if (!defined('SITE_NAME'))    define('SITE_NAME',    config('site.name'));
-if (!defined('SITE_TAGLINE')) define('SITE_TAGLINE', config('site.tagline'));
-if (!defined('SITE_EMAIL'))   define('SITE_EMAIL',   config('site.email'));
-if (!defined('SITE_PHONE'))   define('SITE_PHONE',   config('site.phone'));
-if (!defined('SITE_PHONE_TEL')) define('SITE_PHONE_TEL', preg_replace('/[^0-9+]/', '', SITE_PHONE));
-if (!defined('SITE_ADDRESS')) define('SITE_ADDRESS', config('site.address'));
-
-if (!isset($pageTitle))    $pageTitle    = SITE_NAME . ' | ' . SITE_TAGLINE;
+if (!isset($pageTitle))    $pageTitle    = config('site.name') . ' | ' . config('site.tagline');
 if (!isset($headerClass))  $headerClass  = 'header-v1';
 if (!isset($currentPage))  $currentPage  = '';
 if (!isset($extraCss))     $extraCss     = [];

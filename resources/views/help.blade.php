@@ -77,19 +77,19 @@
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div style="text-align:center;margin-bottom:35px">
                                 <h3 class="about-title" style="margin-bottom:8px">Call Us</h3>
-                                <p class="about-desc"><a href="tel:{{ SITE_PHONE_TEL }}">{{ SITE_PHONE }}</a><br>Mon–Sat, 9:00am – 5:00pm</p>
+                                <p class="about-desc"><a href="tel:{{ preg_replace('/[^0-9+]/', '', config('site.phone')) }}">{{ config('site.phone') }}</a><br>Mon–Sat, 9:00am – 5:00pm</p>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div style="text-align:center;margin-bottom:35px">
                                 <h3 class="about-title" style="margin-bottom:8px">Email Us</h3>
-                                <p class="about-desc">{{ SITE_EMAIL }}<br>We reply within 24 hours.</p>
+                                <p class="about-desc">{{ config('site.email') }}<br>We reply within 24 hours.</p>
                             </div>
                         </div>
                         <div class="col-md-4 col-sm-6 col-xs-12">
                             <div style="text-align:center;margin-bottom:35px">
                                 <h3 class="about-title" style="margin-bottom:8px">Visit Us</h3>
-                                <p class="about-desc">{{ SITE_ADDRESS }}</p>
+                                <p class="about-desc">{{ config('site.address') }}</p>
                             </div>
                         </div>
                     </div>

@@ -58,7 +58,7 @@
                     </div>
                     <div style="margin-bottom:10px">
                         <h3 class="about-title spc">Contact Us</h3>
-                        <p class="about-desc spc">If you have questions about this Privacy Policy or how your information is handled, reach out at {{ SITE_EMAIL }} or <a href="tel:{{ SITE_PHONE_TEL }}">{{ SITE_PHONE }}</a>.</p>
+                        <p class="about-desc spc">If you have questions about this Privacy Policy or how your information is handled, reach out at {{ config('site.email') }} or <a href="tel:{{ preg_replace('/[^0-9+]/', '', config('site.phone')) }}">{{ config('site.phone') }}</a>.</p>
                     </div>
                 </div>
             </div>

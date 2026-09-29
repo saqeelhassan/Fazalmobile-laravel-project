@@ -76,7 +76,7 @@
                             </div>
                             <div class="sub-right">
                                 <span>Call Us Free</span>
-                                <div class="phone"><a href="tel:{{ SITE_PHONE_TEL }}">{{ SITE_PHONE }}</a></div>
+                                <div class="phone"><a href="tel:{{ preg_replace('/[^0-9+]/', '', config('site.phone')) }}">{{ config('site.phone') }}</a></div>
                             </div>
                         </div>
                         <div class="header-sub-element row">

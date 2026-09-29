@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Http\Request;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\Admin\AuthController;
@@ -23,7 +22,6 @@ use App\Http\Controllers\AuthController as CustomerAuthController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\NewsletterController;
-use App\Models\Product;
 
 // ── Admin Panel ──────────────────────────────────────────────────
 Route::prefix('admin')->name('admin.')->group(function () {
@@ -135,34 +133,25 @@ Route::get('/blog-grid', [BlogController::class, 'grid'])->name('blog-grid');
 Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.post');
 
 // Shop Layouts
-Route::get('/shop',                fn(Request $r) => (new ShopController)->index($r, 'shop_full'))->name('shop');
-Route::get('/shop-grid-v1',        fn(Request $r) => (new ShopController)->index($r, 'shopgrid_v1'))->name('shop-grid-v1');
-Route::get('/shop-grid-v2',        fn(Request $r) => (new ShopController)->index($r, 'shopgrid_v2'))->name('shop-grid-v2');
-Route::get('/shop-list',           fn(Request $r) => (new ShopController)->index($r, 'shoplist'))->name('shop-list');
-Route::get('/shop-left-sidebar',   fn(Request $r) => (new ShopController)->index($r, 'shopleft_sidebar'))->name('shop-left-sidebar');
-Route::get('/shop-right-sidebar',  fn(Request $r) => (new ShopController)->index($r, 'shopright_sidebar'))->name('shop-right-sidebar');
+Route::get('/shop',               [ShopController::class, 'shop'])->name('shop');
+Route::get('/shop-grid-v1',       [ShopController::class, 'gridV1'])->name('shop-grid-v1');
+Route::get('/shop-grid-v2',       [ShopController::class, 'gridV2'])->name('shop-grid-v2');
+Route::get('/shop-list',          [ShopController::class, 'list'])->name('shop-list');
+Route::get('/shop-left-sidebar',  [ShopController::class, 'leftSidebar'])->name('shop-left-sidebar');
+Route::get('/shop-right-sidebar', [ShopController::class, 'rightSidebar'])->name('shop-right-sidebar');
 
 // Promo nav collections
-Route::get('/flash-deals',      fn(Request $r) => (new ShopController)->index($r->merge(['collection' => 'sale']), 'shop_full'))->name('flash-deals');
-Route::get('/tech-discovery',   fn(Request $r) => (new ShopController)->index($r->merge(['collection' => 'new']), 'shop_full'))->name('tech-discovery');
-Route::get('/trending-styles',  fn(Request $r) => (new ShopController)->index($r->merge(['collection' => 'featured']), 'shop_full'))->name('trending-styles');
+Route::get('/flash-deals',     [ShopController::class, 'flashDeals'])->name('flash-deals');
+Route::get('/tech-discovery',  [ShopController::class, 'techDiscovery'])->name('tech-discovery');
+Route::get('/trending-styles', [ShopController::class, 'trendingStyles'])->name('trending-styles');
 Route::get('/gift-cards',       fn() => view('gift-cards'))->name('gift-cards');
 
 // Category Layouts
-Route::get('/category-fullwidth',       fn(Request $r) => (new ShopController)->index($r, 'cat_fullwidth'))->name('category-fullwidth');
-Route::get('/category-left-sidebar',    fn(Request $r) => (new ShopController)->index($r, 'cat_left_sidebar'))->name('category-left-sidebar');
-Route::get('/category-right-sidebar',   fn(Request $r) => (new ShopController)->index($r, 'cat_right_sidebar'))->name('category-right-sidebar');
+Route::get('/category-fullwidth',     [ShopController::class, 'categoryFullwidth'])->name('category-fullwidth');
+Route::get('/category-left-sidebar',  [ShopController::class, 'categoryLeftSidebar'])->name('category-left-sidebar');
+Route::get('/category-right-sidebar', [ShopController::class, 'categoryRightSidebar'])->name('category-right-sidebar');
 
 // Product Pages
-Route::get('/product/{slug}', function ($slug) {
-    $product = Product::where('status', 'active')
-        ->where(fn($q) => $q->where('slug', $slug)->orWhere('id', $slug))
-        ->firstOrFail();
-    $related = Product::where('status', 'active')
-        ->where('category', $product->category)
-        ->where('id', '!=', $product->id)
-        ->take(4)->get();
-    return view('product_detail', compact('product', 'related'));
-})->name('product.show');
+Route::get('/product/{slug}', [ShopController::class, 'showProduct'])->name('product.show');
 
-Route::get('/search', fn(Request $r) => (new ShopController)->index($r, 'shop_full'))->name('search');
+Route::get('/search', [ShopController::class, 'shop'])->name('search');
