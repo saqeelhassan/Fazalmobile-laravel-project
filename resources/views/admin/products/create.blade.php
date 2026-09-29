@@ -28,12 +28,12 @@
                     </div>
                     <div class="form-group full">
                         <label>Short Description</label>
-                        <textarea name="short_description" rows="2" placeholder="Brief summary shown in product listing...">{{ old('short_description') }}</textarea>
+                        @include('admin.products._richtext', ['name' => 'short_description', 'value' => old('short_description'), 'height' => '80px'])
                         @error('short_description')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                     <div class="form-group full">
                         <label>Full Description</label>
-                        <textarea name="description" rows="5" placeholder="Detailed product description...">{{ old('description') }}</textarea>
+                        @include('admin.products._richtext', ['name' => 'description', 'value' => old('description'), 'height' => '220px'])
                         @error('description')<div class="invalid-feedback">{{ $message }}</div>@enderror
                     </div>
                 </div>
