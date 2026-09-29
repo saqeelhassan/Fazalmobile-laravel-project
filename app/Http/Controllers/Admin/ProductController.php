@@ -91,6 +91,7 @@ class ProductController extends Controller
 
         $validated['is_featured'] = $request->boolean('is_featured');
         $validated['is_on_sale']  = $request->boolean('is_on_sale');
+        $validated['cost_price']  = $validated['cost_price'] ?? 0;
         $validated['created_by']  = Auth::guard('admin')->id();
         $validated['slug']        = Str::slug($validated['name']);
 
@@ -136,6 +137,7 @@ class ProductController extends Controller
 
         $validated['is_featured'] = $request->boolean('is_featured');
         $validated['is_on_sale']  = $request->boolean('is_on_sale');
+        $validated['cost_price']  = $validated['cost_price'] ?? 0;
 
         // Handle main image
         if ($request->hasFile('image')) {
