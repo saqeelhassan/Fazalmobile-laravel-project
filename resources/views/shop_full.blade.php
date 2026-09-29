@@ -124,12 +124,12 @@
                                        data-price-raw="{{ $product->sale_price ?: $product->price }}"
                                        data-oldprice="{{ $product->sale_price ? 'Rs. ' . number_format($product->price, 0) : '' }}"
                                        data-desc="{{ Str::limit(trim(strip_tags(str_replace(['\r\n', '\n'], ' ', $product->short_description ?: $product->description))), 180) }}"
-                                       data-image="{{ $product->image ? Storage::url($product->image) : asset('img/product/img-1.jpg') }}"
+                                       data-image="{{ $product->image ? Storage::url($product->image) : asset('img/product/pd1.jpg') }}"
                                        data-url="{{ url('/product/' . $product->slug) }}">
                                         @if($product->image)
                                             <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}" style="width:100%;height:220px;object-fit:cover;object-position:center">
                                         @else
-                                            <img src="{{ asset('img/product/img-1.jpg') }}" alt="{{ $product->name }}" style="width:100%;height:220px;object-fit:cover;object-position:center">
+                                            <img src="{{ asset('img/product/pd1.jpg') }}" alt="{{ $product->name }}" style="width:100%;height:220px;object-fit:cover;object-position:center">
                                         @endif
                                     </a>
                                     @include('layouts.partials.product-actions', ['product' => $product])
@@ -222,7 +222,7 @@
                                     @if($p->image)
                                         <img src="{{ Storage::url($p->image) }}" alt="{{ $p->name }}" style="width:80px;height:70px;object-fit:cover">
                                     @else
-                                        <img src="{{ asset('img/product/img-1.jpg') }}" alt="{{ $p->name }}" style="width:80px;height:70px;object-fit:cover">
+                                        <img src="{{ asset('img/product/pd1.jpg') }}" alt="{{ $p->name }}" style="width:80px;height:70px;object-fit:cover">
                                     @endif
                                 </a>
                             </div>
@@ -252,7 +252,7 @@
                                     @if($p->image)
                                         <img src="{{ Storage::url($p->image) }}" alt="{{ $p->name }}" style="width:80px;height:70px;object-fit:cover">
                                     @else
-                                        <img src="{{ asset('img/product/img-1.jpg') }}" alt="{{ $p->name }}" style="width:80px;height:70px;object-fit:cover">
+                                        <img src="{{ asset('img/product/pd1.jpg') }}" alt="{{ $p->name }}" style="width:80px;height:70px;object-fit:cover">
                                     @endif
                                 </a>
                             </div>
@@ -282,7 +282,7 @@
                                     @if($p->image)
                                         <img src="{{ Storage::url($p->image) }}" alt="{{ $p->name }}" style="width:80px;height:70px;object-fit:cover">
                                     @else
-                                        <img src="{{ asset('img/product/img-1.jpg') }}" alt="{{ $p->name }}" style="width:80px;height:70px;object-fit:cover">
+                                        <img src="{{ asset('img/product/pd1.jpg') }}" alt="{{ $p->name }}" style="width:80px;height:70px;object-fit:cover">
                                     @endif
                                 </a>
                             </div>

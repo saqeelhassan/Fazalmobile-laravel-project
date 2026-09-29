@@ -7,7 +7,7 @@
     $extraCss     = [];
     $extraScripts = [];
 
-    $mainImg  = $product->image ? Storage::url($product->image) : asset('img/product/img-1.jpg');
+    $mainImg  = $product->image ? Storage::url($product->image) : asset('img/product/pd1.jpg');
     $gallery  = collect($product->gallery ?? [])->map(fn($g) => Storage::url($g))->prepend($mainImg)->unique()->values();
     $waNumber = '923095179899';
     $waText   = rawurlencode('Hello! I want to order: ' . $product->name . ' (' . url('/product/' . $product->slug) . ')');
@@ -196,7 +196,7 @@
                             @if($rel->image)
                                 <img src="{{ Storage::url($rel->image) }}" alt="{{ $rel->name }}" style="width:100%;height:220px;object-fit:cover;object-position:center">
                             @else
-                                <img src="{{ asset('img/product/img-1.jpg') }}" alt="{{ $rel->name }}" style="width:100%;height:220px;object-fit:cover;object-position:center">
+                                <img src="{{ asset('img/product/pd1.jpg') }}" alt="{{ $rel->name }}" style="width:100%;height:220px;object-fit:cover;object-position:center">
                             @endif
                         </a>
                         @include('layouts.partials.product-actions', ['product' => $rel])

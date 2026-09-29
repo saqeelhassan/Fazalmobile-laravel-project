@@ -19,7 +19,7 @@
                         @if(!empty($categoryImages[$cat]))
                             <img src="{{ Storage::url($categoryImages[$cat]) }}" alt="{{ $cat }}">
                         @else
-                            <img src="{{ asset('img/product/img-1.jpg') }}" alt="{{ $cat }}">
+                            <img src="{{ asset('img/product/pd1.jpg') }}" alt="{{ $cat }}">
                         @endif
                     </span>
                     <span class="cate-thumb-name">{{ $cat }}</span>

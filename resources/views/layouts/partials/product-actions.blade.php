@@ -54,7 +54,7 @@
 @endonce
 @php
     $paDesc = \Illuminate\Support\Str::limit(trim(strip_tags(str_replace(['\r\n', '\n'], ' ', $product->short_description ?: $product->description))), 180);
-    $paImg  = $product->image ? \Illuminate\Support\Facades\Storage::url($product->image) : asset('img/product/img-1.jpg');
+    $paImg  = $product->image ? \Illuminate\Support\Facades\Storage::url($product->image) : asset('img/product/pd1.jpg');
     $paUrl  = url('/product/' . $product->slug);
 @endphp
 <div class="pa-group">

@@ -24,7 +24,7 @@
                     @if($p->image)
                         <img src="{{ Storage::url($p->image) }}" alt="{{ $p->name }}" style="width:70px;height:60px;object-fit:cover">
                     @else
-                        <img src="{{ asset('img/product/img-1.jpg') }}" alt="{{ $p->name }}" style="width:70px;height:60px;object-fit:cover">
+                        <img src="{{ asset('img/product/pd1.jpg') }}" alt="{{ $p->name }}" style="width:70px;height:60px;object-fit:cover">
                     @endif
                 </a>
             </div>

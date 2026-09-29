@@ -55,7 +55,7 @@
                                         <div class="product-inner">
                                             <div class="product-img">
                                                 <a href="{{ url('/product/' . $p->slug) }}">
-                                                    <img src="{{ $p->image ? \Illuminate\Support\Facades\Storage::url($p->image) : asset('img/product/img-1.jpg') }}" alt="{{ $p->name }}">
+                                                    <img src="{{ $p->image ? \Illuminate\Support\Facades\Storage::url($p->image) : asset('img/product/pd1.jpg') }}" alt="{{ $p->name }}">
                                                 </a>
                                             </div>
                                             <div class="pd-bd">

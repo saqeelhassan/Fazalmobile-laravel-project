@@ -25,7 +25,7 @@
                         @if($product->image)
                             <img src="{{ Storage::url($product->image) }}" alt="{{ $product->name }}" style="width:100%;height:220px;object-fit:cover;object-position:center">
                         @else
-                            <img src="{{ asset('img/product/img-1.jpg') }}" alt="{{ $product->name }}" style="width:100%;height:220px;object-fit:cover;object-position:center">
+                            <img src="{{ asset('img/product/pd1.jpg') }}" alt="{{ $product->name }}" style="width:100%;height:220px;object-fit:cover;object-position:center">
                         @endif
                     </a>
                     <div class="product-action">
@@ -34,7 +34,7 @@
                                data-id="{{ $product->id }}"
                                data-name="{{ $product->name }}"
                                data-price="{{ $product->sale_price ?: $product->price }}"
-                               data-image="{{ $product->image ? Storage::url($product->image) : asset('img/product/img-1.jpg') }}"
+                               data-image="{{ $product->image ? Storage::url($product->image) : asset('img/product/pd1.jpg') }}"
                                data-url="{{ url('/product') }}"><span class="icon-bg icon-love"></span></a>
                         </div>
                         <div class="action-center">
@@ -42,7 +42,7 @@
                                data-id="{{ $product->id }}"
                                data-name="{{ $product->name }}"
                                data-price="{{ $product->sale_price ?: $product->price }}"
-                               data-image="{{ $product->image ? Storage::url($product->image) : asset('img/product/img-1.jpg') }}"
+                               data-image="{{ $product->image ? Storage::url($product->image) : asset('img/product/pd1.jpg') }}"
                                data-url="{{ url('/product') }}"
                                data-stock="{{ $product->stock }}">Add To Cart</a>
                             <a href="{{ url('/product') }}" class="btn btn-quick-view">Quick View</a>

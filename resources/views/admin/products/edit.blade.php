@@ -15,6 +15,17 @@
     <form id="productEditForm" method="POST" action="{{ route('admin.products.update', $product) }}" enctype="multipart/form-data" style="display:flex;flex-direction:column;gap:20px">
         @csrf @method('PUT')
 
+            @if ($errors->any())
+                <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:14px 16px;color:#991b1b;font-size:13px">
+                    <strong style="display:block;margin-bottom:6px"><i class="fas fa-triangle-exclamation"></i> Please fix the following before saving:</strong>
+                    <ul style="margin:0;padding-left:18px">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
             <div class="form-card">
                 <h3 style="font-size:14px;font-weight:700;margin-bottom:18px;color:#1f2937"><i class="fas fa-info-circle" style="color:#6c63ff"></i> Basic Information</h3>
                 <div class="form-grid">
@@ -84,8 +95,9 @@
                 @endif
                 <div class="form-group" style="margin-bottom:16px">
                     <label>Replace Main Image</label>
-                    <input type="file" name="image" accept="image/jpeg,image/png,image/jpg,image/webp" onchange="previewImage(this,'mainPreview')" style="padding:8px">
+                    <input type="file" name="image" accept="image/jpeg,image/png,image/jpg,image/webp" onchange="previewImage(this,'mainPreview')" style="padding:8px" class="{{ $errors->has('image') ? 'is-invalid' : '' }}">
                     <img id="mainPreview" class="img-preview" style="display:none">
+                    @error('image')<div class="invalid-feedback" style="display:block;color:#dc2626;font-size:12px;margin-top:4px">{{ $message }}</div>@enderror
                 </div>
                 @if($product->gallery)
                     <div style="margin-bottom:14px">
@@ -99,7 +111,8 @@
                 @endif
                 <div class="form-group">
                     <label>Replace Gallery Images</label>
-                    <input type="file" name="gallery[]" accept="image/jpeg,image/png,image/jpg,image/webp" multiple style="padding:8px">
+                    <input type="file" name="gallery[]" accept="image/jpeg,image/png,image/jpg,image/webp" multiple style="padding:8px" class="{{ $errors->has('gallery.*') ? 'is-invalid' : '' }}">
+                    @error('gallery.*')<div class="invalid-feedback" style="display:block;color:#dc2626;font-size:12px;margin-top:4px">{{ $message }}</div>@enderror
                 </div>
             </div>
 
